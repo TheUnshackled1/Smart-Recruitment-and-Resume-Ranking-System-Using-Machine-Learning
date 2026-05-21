@@ -1,0 +1,18 @@
+# Auto detect text files and perform LF normalization
+* text=auto
+
+**/cache/
+**.pyc
+.idea
+__pycache__
+venv
+
+# local DB + data (don't track)
+db.sqlite3
+
+# personal local Claude settings
+.claude/settings.local.json
+
+.claude/
+.idea/
+extra/
