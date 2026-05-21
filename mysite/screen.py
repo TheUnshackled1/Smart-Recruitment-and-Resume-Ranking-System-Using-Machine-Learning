@@ -15,7 +15,7 @@ from collections import OrderedDict
 from .text_process import normalize
 
 import nltk
-nltk.download('punkt')
+nltk.download('punkt', quiet=True)
 
 from nltk.tokenize import word_tokenize
 import mysite.configurations as regex

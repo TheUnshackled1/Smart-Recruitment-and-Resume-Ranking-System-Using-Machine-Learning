@@ -1,8 +1,9 @@
 import re, unicodedata
 import inflect
 import nltk
-nltk.download('punkt')
-nltk.download('wordnet')
+nltk.download('punkt', quiet=True)
+nltk.download('wordnet', quiet=True)
+nltk.download('omw-1.4', quiet=True)
 from nltk.stem import LancasterStemmer, WordNetLemmatizer
 from stop_words import get_stop_words
 
