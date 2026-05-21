@@ -16,3 +16,6 @@ db.sqlite3
 .claude/
 .idea/
 extra/
+jobDetails/
+result/
+resumes/
