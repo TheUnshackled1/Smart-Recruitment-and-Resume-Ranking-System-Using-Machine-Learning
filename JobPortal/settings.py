@@ -10,7 +10,12 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 import os
+import mimetypes
 from pathlib import Path
+
+# Windows registry often maps .svg to "image/svg" (wrong); browsers need
+# "image/svg+xml" to render SVG in <img>, else logos show as broken images.
+mimetypes.add_type("image/svg+xml", ".svg", True)
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
