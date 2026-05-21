@@ -1,4 +1,4 @@
-# Smart Recruitment System — Local Setup (Windows, Python 3.9)
+# Smart Recruitment and Resume Ranking System Using Machine Learning — Local Setup (Windows, Python 3.9)
 
 This is the setup that actually runs: Python 3.9 venv, SQLite database,
 PDF resume parsing via pdfminer.six. No MySQL/Postgres, no textract.

@@ -1,4 +1,4 @@
-# Smart Recruitment System - Python 3.9 (SQLite, no textract/MySQL)
+ Python 3.9 (SQLite, no textract/MySQL)
 Django==3.2.25
 scikit-learn==1.3.2
 nltk==3.8.1
