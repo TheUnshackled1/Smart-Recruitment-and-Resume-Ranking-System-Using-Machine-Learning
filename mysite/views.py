@@ -13,8 +13,24 @@ from mysite.models import PostJob
 from mysite.models import Apply_job
 import mysite.screen as screen
 import re
+from functools import wraps
 from django.contrib.auth.decorators import login_required
 from django.views.generic import ListView
+from django.core.mail import send_mail
+from django.conf import settings
+
+
+# Recruiter-only gate: must be logged in AND a staff user.
+# Candidates (registered with Applicant) have is_staff=False -> redirected.
+def staff_required(view_func):
+    @wraps(view_func)
+    @login_required(login_url='login')
+    def _wrapped(request, *args, **kwargs):
+        if not request.user.is_staff:
+            messages.info(request, 'Only recruiters can access that page.')
+            return redirect('index')
+        return view_func(request, *args, **kwargs)
+    return _wrapped
 
 
 # write your code
@@ -167,7 +183,7 @@ def job_listings(request):
     return render(request, "mysite/job-listings.html", context=context)
 
 
-@login_required(login_url='login')
+@staff_required
 def post_job(request):
     if request.method == "POST":
         title = request.POST['title']
@@ -238,6 +254,16 @@ def contact(request):
         ins = Contact(name=name, email=email, phone=phone, subject=subject, desc=desc)
         ins.save()
         print("Data has been save in database!")
+
+        # (b) deliver contact message to admin inbox (console backend in dev)
+        try:
+            send_mail(
+                'Contact form: ' + str(subject),
+                'From: ' + name + ' <' + email + '>  phone: ' + str(phone) + '\n\n' + str(desc),
+                settings.DEFAULT_FROM_EMAIL, [settings.CONTACT_EMAIL], fail_silently=True)
+        except Exception as e:
+            print('email error:', e)
+
         return redirect('/')
 
     else:
@@ -266,6 +292,28 @@ def applyjob(request, id):
         ins.save()
         messages.info(request, 'Successfully applied for the post!')
         print("The Data is saved into database!")
+
+        # email notifications (console backend in dev)
+        try:
+            # (a) confirmation to candidate
+            send_mail(
+                'Application received - ' + job.title,
+                'Hi ' + name + ',\n\nWe received your application for "' + job.title +
+                '" at ' + job.company_name + '.\nWe will contact you about next steps.\n\n- Smart Recruitment',
+                settings.DEFAULT_FROM_EMAIL, [email], fail_silently=True)
+            # (c) alert all recruiters (staff users)
+            recruiter_emails = list(
+                User.objects.filter(is_staff=True, is_active=True)
+                .exclude(email='').values_list('email', flat=True))
+            if recruiter_emails:
+                send_mail(
+                    'New application: ' + job.title,
+                    name + ' (' + email + ') applied for "' + job.title + '" at ' +
+                    job.company_name + '. Experience: ' + str(experience) + ' yr(s).',
+                    settings.DEFAULT_FROM_EMAIL, recruiter_emails, fail_silently=True)
+        except Exception as e:
+            print('email error:', e)
+
         return redirect('job-listings')
 
     return render(request, 'mysite/applyjob.html', {'company_name': job.company_name, 'title': job.title})
@@ -286,7 +334,7 @@ def applyjob(request, id):
 #     return render(request, 'mysite/ranking.html',
 #                   {'items': result_arr, 'company_name': job_query.company_name, 'title': job_query.title})
 
-@login_required(login_url='login')
+@staff_required
 def ranking(request, id):
     job_data = PostJob.objects.get(id=id)
     print(job_data.id, job_data.title, job_data.company_name)

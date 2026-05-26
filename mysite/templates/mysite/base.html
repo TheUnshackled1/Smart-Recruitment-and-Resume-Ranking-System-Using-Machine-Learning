@@ -79,7 +79,14 @@
                         <li><a href="{% url 'contact' %}" class="nav-link">Contact</a></li>
 
                         {% if user.is_authenticated %}
-                            <li>Hello, {{ user.username }}</li>
+                            <li>
+                                Hello, {{ user.username }}
+                                {% if user.is_staff %}
+                                    <span class="badge badge-warning ml-1">Recruiter</span>
+                                {% else %}
+                                    <span class="badge badge-info ml-1">Applicant</span>
+                                {% endif %}
+                            </li>
                             <li><a href="{% url 'logout' %}"> Log Out </a></li>
                         {% else %}
                             <li><a href="{% url 'register' %}">Sign Up</a></li>
@@ -99,6 +106,9 @@
                             {% if user.is_active and user.is_staff %}
                             <a href="{% url 'post-job' %}" class="btn btn-outline-white border-width-2 d-none d-lg-inline-block"><span
                                     class="mr-2 icon-add"></span>Post a Job</a>
+                            {% else %}
+                            <a href="{% url 'job-listings' %}" class="btn btn-outline-white border-width-2 d-none d-lg-inline-block"><span
+                                    class="mr-2 icon-search"></span>Find Jobs</a>
                             {% endif %}
                         {% else %}
                         <a href="{% url 'login' %}" class="btn btn-primary border-width-2 d-none d-lg-inline-block"><span
