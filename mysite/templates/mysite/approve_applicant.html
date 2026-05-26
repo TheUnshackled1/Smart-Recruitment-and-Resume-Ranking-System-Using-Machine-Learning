@@ -1,0 +1,54 @@
+{% extends 'mysite/base.html' %}
+{% load static %}
+
+{% block link_section %}
+    <link rel="stylesheet" href={% static 'mysite/css/bootstrap.min.css' %}>
+    <style>
+        .approve-card { max-width: 720px; margin: 0 auto; background: #fff; border: 1px solid #e5e7eb; border-radius: .5rem; padding: 2rem; box-shadow: 0 1px 3px rgba(0,0,0,.05); }
+        .approve-card h2 { margin-top: 0; color: #1f2d3d; }
+        .applicant-summary { background: #f3f4f6; padding: .9rem 1.1rem; border-left: 4px solid #28a745; border-radius: .25rem; margin-bottom: 1.25rem; }
+        .applicant-summary .meta { color: #6c757d; font-size: .9rem; }
+        .form-group label { font-weight: 600; color: #374151; }
+        .btn-approve-submit { background: #28a745; color: #fff; border: none; }
+        .btn-approve-submit:hover { background: #218838; color: #fff; }
+    </style>
+{% endblock %}
+
+{% block body %}
+    <section class="site-section py-5">
+        <div class="container">
+            <div class="approve-card">
+                <h2>Approve Applicant</h2>
+                <div class="applicant-summary">
+                    <div><strong>{{ applicant.name }}</strong> &mdash; applying for <strong>{{ applicant.title }}</strong> @ {{ applicant.company_name }}</div>
+                    <div class="meta">{{ applicant.email }} &middot; {{ applicant.gender }} &middot; {{ applicant.experience }} yr experience</div>
+                </div>
+
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label for="start_date">Start Date</label>
+                        <input type="date" id="start_date" name="start_date" class="form-control"
+                               value="{{ applicant.start_date|date:'Y-m-d' }}">
+                        <small class="form-text text-muted">When the candidate should start. Leave blank if TBD.</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="start_location">Location / Branch</label>
+                        <input type="text" id="start_location" name="start_location" class="form-control"
+                               value="{{ applicant.start_location }}" placeholder="e.g. Manila Office - 5F">
+                    </div>
+                    <div class="form-group">
+                        <label for="interview_details">Onboarding details / Instructions</label>
+                        <textarea id="interview_details" name="interview_details" class="form-control" rows="5"
+                                  placeholder="e.g. Report to HR on the start date at 9 AM. Bring 2 IDs and your TIN.">{{ applicant.interview_details }}</textarea>
+                        <small class="form-text text-muted">Included in the approval email to the candidate.</small>
+                    </div>
+                    <div class="d-flex justify-content-between mt-4">
+                        <a href="{% url 'job-listings' %}" class="btn btn-outline-secondary">Cancel</a>
+                        <button type="submit" class="btn btn-approve-submit">Approve &amp; Email Candidate</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+{% endblock %}

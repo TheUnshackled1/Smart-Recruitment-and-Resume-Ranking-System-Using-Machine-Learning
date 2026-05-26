@@ -19,6 +19,7 @@ urlpatterns = [
     path("contact.html", views.contact, name="contact"),
     path("applyjob/<int:id>/", views.applyjob, name="applyjob"),
     path("ranking/<int:id>/", views.ranking, name="ranking"),
+    path("applicants/<int:id>/approve/", views.approve_applicant, name="approve_applicant"),
     path("applicants/<int:id>/status/<str:status>/", views.set_status, name="set_status"),
     path('search/', SearchView.as_view(), name='search'),
 

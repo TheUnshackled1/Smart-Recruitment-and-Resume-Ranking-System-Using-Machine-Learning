@@ -107,16 +107,19 @@
                     <td>
                         {% if item.applicant %}
                             <span class="status-badge status-{{ item.applicant.status }}">{{ item.applicant.status }}</span>
+                            {% if item.applicant.status == 'Approved' and item.applicant.start_date %}
+                                <div class="applicant-meta mt-1">starts {{ item.applicant.start_date|date:'M d, Y' }}</div>
+                            {% endif %}
+                            {% if item.applicant.status == 'Approved' and item.applicant.start_location %}
+                                <div class="applicant-meta">@ {{ item.applicant.start_location }}</div>
+                            {% endif %}
                         {% else %}
                             &mdash;
                         {% endif %}
                     </td>
                     <td>
                         {% if item.applicant %}
-                        <form method="post" action="{% url 'set_status' id=item.applicant.id status='Approved' %}" style="display:inline">
-                            {% csrf_token %}
-                            <button type="submit" class="btn btn-approve btn-sm">Approve</button>
-                        </form>
+                        <a href="{% url 'approve_applicant' id=item.applicant.id %}" class="btn btn-approve btn-sm">Approve</a>
                         <form method="post" action="{% url 'set_status' id=item.applicant.id status='Rejected' %}" style="display:inline">
                             {% csrf_token %}
                             <button type="submit" class="btn btn-reject btn-sm">Reject</button>

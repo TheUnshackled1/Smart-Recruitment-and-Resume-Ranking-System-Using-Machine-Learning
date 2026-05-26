@@ -377,6 +377,43 @@ def ranking(request, id):
 
 
 @staff_required
+def approve_applicant(request, id):
+    app = get_object_or_404(Apply_job, id=id)
+    if request.method == 'POST':
+        app.status = 'Approved'
+        app.start_date = request.POST.get('start_date') or None
+        app.start_location = request.POST.get('start_location', '').strip()
+        app.interview_details = request.POST.get('interview_details', '').strip()
+        app.save()
+
+        # build details section for the email
+        parts = []
+        if app.start_date:
+            parts.append('Start date: ' + str(app.start_date))
+        if app.start_location:
+            parts.append('Location: ' + app.start_location)
+        if app.interview_details:
+            parts.append('Details: ' + app.interview_details)
+        details_block = ('\n\n' + '\n'.join(parts)) if parts else ''
+
+        try:
+            send_mail(
+                'Application approved: ' + app.title,
+                'Hi ' + app.name + ',\n\nGood news! Your application for "' +
+                app.title + '" at ' + app.company_name + ' has been approved.' +
+                details_block + '\n\n- Smart Recruitment',
+                settings.DEFAULT_FROM_EMAIL, [app.email], fail_silently=True)
+        except Exception as e:
+            print('email error:', e)
+
+        messages.info(request, app.name + ' approved (start ' + (str(app.start_date) if app.start_date else 'TBD') + ').')
+        job = PostJob.objects.filter(company_name=app.company_name, title=app.title).first()
+        return redirect('ranking', id=job.id) if job else redirect('job-listings')
+    # GET -> render form
+    return render(request, 'mysite/approve_applicant.html', {'applicant': app})
+
+
+@staff_required
 def set_status(request, id, status):
     app = get_object_or_404(Apply_job, id=id)
     if request.method == 'POST' and status in ('Approved', 'Rejected', 'Pending'):

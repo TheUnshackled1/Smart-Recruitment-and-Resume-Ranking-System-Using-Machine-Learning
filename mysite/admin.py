@@ -6,7 +6,7 @@ from mysite.models import Apply_job
 
 @admin.register(Apply_job)
 class ApplyJobAdmin(admin.ModelAdmin):
-    list_display = ('name', 'email', 'gender', 'experience', 'company_name', 'title', 'status', 'cv')
+    list_display = ('name', 'email', 'gender', 'experience', 'company_name', 'title', 'status', 'start_date', 'start_location', 'cv')
     list_editable = ('status',)
     list_filter = ('status', 'company_name', 'title', 'gender')
     search_fields = ('name', 'email', 'company_name', 'title')
