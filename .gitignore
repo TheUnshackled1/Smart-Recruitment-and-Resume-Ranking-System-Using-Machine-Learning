@@ -19,3 +19,7 @@ extra/
 jobDetails/
 result/
 resumes/
+
+# secrets (SMTP creds etc) - never commit
+.env
+.env.local

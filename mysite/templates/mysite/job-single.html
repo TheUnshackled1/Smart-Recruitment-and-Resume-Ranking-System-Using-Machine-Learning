@@ -47,9 +47,11 @@
 {#              <div class="col-6">#}
 {#                <a href="{% url 'applyjob' id=q.id %}" class="btn btn-block btn-primary btn-md">Apply Now</a>#}
 {#              </div>#}
+              {% if user.is_staff %}
                 <div class="col-6">
                 <a href="{% url 'ranking' id=q.id %}" class="btn btn-block btn-primary btn-md">See Rank</a>
               </div>
+              {% endif %}
             </div>
           </div>
         </div>
@@ -87,9 +89,15 @@
 {#              <div class="col-6">#}
 {#                <a href="{% url 'applyjob' id=q.id %}" class="btn btn-block btn-light btn-md"><span class="icon-heart-o mr-2 text-danger"></span>Save Job</a>#}
 {#              </div>#}
+              {% if user.is_staff %}
+              <div class="col-12">
+                <p class="text-muted small mb-0"><em>You're signed in as a recruiter; recruiters can't apply to jobs.</em></p>
+              </div>
+              {% else %}
               <div class="col-6">
                 <a href="{% url 'applyjob' id=q.id %}" class="btn btn-block btn-primary btn-md">Apply Now</a>
               </div>
+              {% endif %}
             </div>
 
           </div>

@@ -42,6 +42,12 @@ CANDIDATE_GENDER = (
     ('Female', 'Female'),
 )
 
+APPLICATION_STATUS = (
+    ('Pending', 'Pending'),
+    ('Approved', 'Approved'),
+    ('Rejected', 'Rejected'),
+)
+
 
 # For post a job
 class PostJob(models.Model):
@@ -80,6 +86,10 @@ class Apply_job(models.Model):
     coverletter = models.CharField(max_length=100)
     company_name = models.CharField(max_length=100)
     title = models.CharField(max_length=100)
+    status = models.CharField(choices=APPLICATION_STATUS, max_length=10, default='Pending')
+    start_date = models.DateField(null=True, blank=True)
+    start_location = models.CharField(max_length=120, blank=True, default='')
+    interview_details = models.TextField(blank=True, default='')
 
     def __str__(self):
         return self.name

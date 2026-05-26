@@ -272,6 +272,10 @@ def contact(request):
 
 @login_required(login_url='login')
 def applyjob(request, id):
+    # recruiters (is_staff) cannot apply to jobs
+    if request.user.is_staff:
+        messages.info(request, "Recruiters can't apply to jobs.")
+        return redirect('job-listings')
     job = PostJob.objects.get(id=id)
     print(job.id)
     if request.method == "POST":
@@ -334,17 +338,65 @@ def applyjob(request, id):
 #     return render(request, 'mysite/ranking.html',
 #                   {'items': result_arr, 'company_name': job_query.company_name, 'title': job_query.title})
 
+def _verdict(score):
+    # KNN-score = cosine distance (0..2). Lower = closer match.
+    if score <= 0.6:
+        return ('Strong match', 'success')
+    if score <= 0.85:
+        return ('Possible', 'warning')
+    return ('Weak / off-topic', 'danger')
+
+
 @staff_required
 def ranking(request, id):
     job_data = PostJob.objects.get(id=id)
     print(job_data.id, job_data.title, job_data.company_name)
-    jobfilename = job_data.company_name + '_' + job_data.title + '.txt'
-    job_desc = job_data.details + '\n' + job_data.responsibilities + '\n' + job_data.experience + '\n';
     resumes_data = Apply_job.objects.filter(company_name=job_data.company_name, title=job_data.title,
                                             cv__isnull=False)
     result_arr = screen.res(resumes_data, job_data)
+
+    # enrich each ranked item with its Apply_job row + a verdict hint so the
+    # template can show CV link, status, Approve/Reject buttons.
+    applicants_by_cv = {str(a.cv): a for a in resumes_data}
+    items = []
+    for _, item in result_arr.items():
+        applicant = applicants_by_cv.get(item['name'])
+        v_label, v_level = _verdict(item['score'])
+        items.append({
+            'rank': item['rank'],
+            'name': item['name'],
+            'score': item['score'],
+            'applicant': applicant,
+            'verdict_label': v_label,
+            'verdict_level': v_level,
+        })
+
     return render(request, 'mysite/ranking.html',
-                  {'items': result_arr, 'company_name': job_data.company_name, 'title': job_data.title})
+                  {'items': items, 'job': job_data,
+                   'company_name': job_data.company_name, 'title': job_data.title})
+
+
+@staff_required
+def set_status(request, id, status):
+    app = get_object_or_404(Apply_job, id=id)
+    if request.method == 'POST' and status in ('Approved', 'Rejected', 'Pending'):
+        app.status = status
+        app.save()
+        # notify candidate
+        verb_map = {'Approved': 'approved', 'Rejected': 'not selected', 'Pending': 'set back to pending'}
+        try:
+            send_mail(
+                'Application status update: ' + app.title,
+                'Hi ' + app.name + ',\n\nYour application for "' + app.title + '" at ' +
+                app.company_name + ' has been ' + verb_map[status] + '.\n\n- Smart Recruitment',
+                settings.DEFAULT_FROM_EMAIL, [app.email], fail_silently=True)
+        except Exception as e:
+            print('email error:', e)
+        messages.info(request, app.name + ' marked ' + status + '.')
+    job = PostJob.objects.filter(company_name=app.company_name, title=app.title).first()
+    if job:
+        return redirect('ranking', id=job.id)
+    return redirect('job-listings')
 
 
 class SearchView(ListView):

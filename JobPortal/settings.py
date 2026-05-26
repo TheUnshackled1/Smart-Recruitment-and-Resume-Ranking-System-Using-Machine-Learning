@@ -17,6 +17,21 @@ from pathlib import Path
 # "image/svg+xml" to render SVG in <img>, else logos show as broken images.
 mimetypes.add_type("image/svg+xml", ".svg", True)
 
+# Load .env (KEY=VALUE per line) into os.environ if present. .env is
+# gitignored - keep real secrets (SMTP App Password, etc.) in there.
+_env_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), '.env')
+if os.path.isfile(_env_path):
+    with open(_env_path, 'r', encoding='utf-8') as _f:
+        for _line in _f:
+            _line = _line.strip()
+            if not _line or _line.startswith('#') or '=' not in _line:
+                continue
+            _k, _v = _line.split('=', 1)
+            _k = _k.strip()
+            _v = _v.strip().strip('"').strip("'")
+            # don't clobber values already set in the shell
+            os.environ.setdefault(_k, _v)
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -144,18 +159,23 @@ LOGIN_REDIRECT_URL = 'index'
 # LOGIN_URL = '/'
 LOGOUT_REDIRECT_URL = '/login.html'
 
-# Email
-# Dev: console backend prints emails to the runserver terminal (no real SMTP).
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-DEFAULT_FROM_EMAIL = 'Smart Recruitment <no-reply@smartrecruit.local>'
-CONTACT_EMAIL = 'admin@smartrecruit.local'  # where the contact form is delivered
+# Email - Gmail SMTP (creds read from env vars, never committed).
+# Required env vars before runserver:
+#   $env:EMAIL_HOST_USER     = "your.address@gmail.com"
+#   $env:EMAIL_HOST_PASSWORD = "<16-char Gmail App Password, no spaces>"
+# Optional:
+#   $env:CONTACT_EMAIL       = "where the contact form goes (default = EMAIL_HOST_USER)"
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+# Credentials read from environment (loaded from .env at top of this file).
+# Do NOT inline secrets here - settings.py is tracked in git.
+EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER', '')
+EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD', '')
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER or 'Smart Recruitment <no-reply@smartrecruit.local>'
+CONTACT_EMAIL = os.environ.get('CONTACT_EMAIL', EMAIL_HOST_USER or 'admin@smartrecruit.local')
 
-# Real SMTP (e.g. Gmail): comment the console backend above, uncomment below,
-# and put the App Password in an env var (do NOT commit it).
-# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-# EMAIL_HOST = 'smtp.gmail.com'
-# EMAIL_PORT = 587
-# EMAIL_USE_TLS = True
-# EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER', '')
-# EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD', '')
-# DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+# Dev fallback: console backend prints to runserver terminal (no real send).
+# Uncomment to switch back:
+# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'

@@ -1,16 +1,38 @@
 {% extends 'mysite/base.html' %}
 {% load static %}
-{#<!DOCTYPE html>#}
-{#<html>#}
-{#<head>#}
+
 {% block link_section %}
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href={% static 'mysite/css/bootstrap.min.css' %}>
     <script src={% static 'mysite/js/jquery.min.js' %}></script>
     <script src={% static 'mysite/js/bootstrap.min.js' %}></script>
+    <style>
+        /* Ranking table palette - readable on light background */
+        .ranking-table th { background:#1f2d3d; color:#fff; text-align:center; vertical-align:middle; }
+        .ranking-table td { vertical-align:middle; }
+        .ranking-table tr.row-success { background:#e6f6ec !important; }
+        .ranking-table tr.row-warning { background:#fff7e1 !important; }
+        .ranking-table tr.row-danger  { background:#fdecea !important; }
+        .ranking-table .rank-cell { font-size:1.25rem; font-weight:700; text-align:center; width:60px; }
+        .ranking-table .applicant-name { font-weight:600; color:#1f2d3d; }
+        .ranking-table .applicant-meta { color:#6c757d; font-size:.85rem; }
+        .ranking-table .score-cell { text-align:center; font-family:monospace; font-weight:600; }
+        .verdict-badge { display:inline-block; padding:.35em .7em; border-radius:.4rem; color:#fff; font-weight:600; font-size:.85rem; }
+        .verdict-success { background:#28a745; }
+        .verdict-warning { background:#f0ad4e; color:#3a2a00; }
+        .verdict-danger  { background:#dc3545; }
+        .status-badge { display:inline-block; padding:.3em .65em; border-radius:.4rem; color:#fff; font-weight:600; font-size:.8rem; }
+        .status-Approved { background:#28a745; }
+        .status-Rejected { background:#dc3545; }
+        .status-Pending  { background:#6c757d; }
+        .btn-approve { background:#28a745; color:#fff; border:none; }
+        .btn-approve:hover { background:#218838; color:#fff; }
+        .btn-reject  { background:#dc3545; color:#fff; border:none; }
+        .btn-reject:hover { background:#c82333; color:#fff; }
+        .cv-link { color:#0d6efd; text-decoration:underline; font-weight:600; }
+        .legend { font-size:.9rem; color:#374151; background:#f3f4f6; padding:.6rem .9rem; border-left:4px solid #1f2d3d; border-radius:.25rem; }
+    </style>
 {% endblock %}
-{#</head>#}
-{#<body>#}
 
 {% block body %}
     <section class="section-hero overlay inner-page bg-image"
@@ -29,32 +51,84 @@
             </div>
         </div>
     </section>
+
     <section class="site-section">
         <div class="container">
-    <h2>Shortlisted Candidates: </h2>
-    <table class="table table-striped table-bordered table-hover table-condensed">
-        <thead>
-        <tr>
-            <th>Rank</th>
-            <th>Name</th>
-            <th>KNN-score (cosine distance, lower = better)</th>
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert alert-info">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
 
-        </tr>
-        </thead>
-        <tbody>
-        {% for key, item in items.items %}
-        <tr>
-            <td>{{ item.rank }}</td>
-            <td>{{ item.name }}</td>
-            <td>{{ item.score|floatformat:4 }}</td>
-        </tr>
-        {% empty %}
-        <tr><td colspan="3">No candidates to rank yet.</td></tr>
-        {% endfor %}
-        </tbody>
-    </table>
-</div>
+            <h2 class="mb-3">Shortlisted Candidates</h2>
+            <p class="legend mb-3">
+                <strong>KNN-score</strong> = cosine distance (lower = closer match).
+                <strong>Verdict</strong>: &le; 0.60 <span class="verdict-badge verdict-success">Strong</span>,
+                &le; 0.85 <span class="verdict-badge verdict-warning">Possible</span>,
+                &gt; 0.85 <span class="verdict-badge verdict-danger">Weak / off-topic</span>.
+                Open the CV, then Approve or Reject &mdash; candidate is emailed automatically.
+            </p>
+
+            <table class="table table-bordered table-hover ranking-table">
+                <thead>
+                <tr>
+                    <th>Rank</th>
+                    <th>Applicant</th>
+                    <th>CV</th>
+                    <th>KNN-score</th>
+                    <th>Verdict</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for item in items %}
+                <tr class="row-{{ item.verdict_level }}">
+                    <td class="rank-cell">{{ item.rank }}</td>
+                    <td>
+                        {% if item.applicant %}
+                            <div class="applicant-name">{{ item.applicant.name }}</div>
+                            <div class="applicant-meta">
+                                {{ item.applicant.email }} &middot; {{ item.applicant.gender }} &middot; {{ item.applicant.experience }} yr
+                            </div>
+                        {% else %}
+                            {{ item.name }}
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if item.applicant and item.applicant.cv %}
+                            <a class="cv-link" href="{{ item.applicant.cv.url }}" target="_blank">View CV</a>
+                        {% else %}
+                            <span class="text-muted">{{ item.name }}</span>
+                        {% endif %}
+                    </td>
+                    <td class="score-cell">{{ item.score|floatformat:4 }}</td>
+                    <td><span class="verdict-badge verdict-{{ item.verdict_level }}">{{ item.verdict_label }}</span></td>
+                    <td>
+                        {% if item.applicant %}
+                            <span class="status-badge status-{{ item.applicant.status }}">{{ item.applicant.status }}</span>
+                        {% else %}
+                            &mdash;
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if item.applicant %}
+                        <form method="post" action="{% url 'set_status' id=item.applicant.id status='Approved' %}" style="display:inline">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-approve btn-sm">Approve</button>
+                        </form>
+                        <form method="post" action="{% url 'set_status' id=item.applicant.id status='Rejected' %}" style="display:inline">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-reject btn-sm">Reject</button>
+                        </form>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% empty %}
+                <tr><td colspan="7" class="text-center text-muted py-4">No candidates to rank yet.</td></tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
     </section>
 {% endblock %}
-{#</body>#}
-{#</html>#}
