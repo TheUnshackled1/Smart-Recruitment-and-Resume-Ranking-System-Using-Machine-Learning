@@ -56,7 +56,7 @@ class PostJob(models.Model):
     title = models.CharField(max_length=100)
     company_name = models.CharField(max_length=200)
     employment_status = models.CharField(choices=JOB_TYPE, max_length=10)
-    vacancy = models.CharField(max_length=10, null=True)
+    vacancy = models.IntegerField(default=1, null=True)
     gender = models.CharField(choices=GENDER, max_length=30, null=True)
     details = models.TextField()
     responsibilities = models.TextField()

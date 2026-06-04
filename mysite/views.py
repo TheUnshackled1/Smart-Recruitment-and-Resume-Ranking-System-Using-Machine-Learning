@@ -380,11 +380,21 @@ def ranking(request, id):
 def approve_applicant(request, id):
     app = get_object_or_404(Apply_job, id=id)
     if request.method == 'POST':
+        # Check if transitioning from non-Approved to Approved
+        was_approved = app.status == 'Approved'
+
         app.status = 'Approved'
         app.start_date = request.POST.get('start_date') or None
         app.start_location = request.POST.get('start_location', '').strip()
         app.interview_details = request.POST.get('interview_details', '').strip()
         app.save()
+
+        # Decrement vacancy if this is a new approval
+        if not was_approved:
+            job = PostJob.objects.filter(company_name=app.company_name, title=app.title).first()
+            if job and job.vacancy > 0:
+                job.vacancy -= 1
+                job.save()
 
         # build details section for the email
         parts = []
@@ -417,8 +427,24 @@ def approve_applicant(request, id):
 def set_status(request, id, status):
     app = get_object_or_404(Apply_job, id=id)
     if request.method == 'POST' and status in ('Approved', 'Rejected', 'Pending'):
+        old_status = app.status
         app.status = status
         app.save()
+
+        # Handle vacancy changes
+        if status != old_status:
+            job = PostJob.objects.filter(company_name=app.company_name, title=app.title).first()
+            if job:
+                # If transitioning TO Approved, decrement vacancy
+                if status == 'Approved' and old_status != 'Approved':
+                    if job.vacancy > 0:
+                        job.vacancy -= 1
+                        job.save()
+                # If transitioning FROM Approved to something else, increment vacancy back
+                elif old_status == 'Approved' and status != 'Approved':
+                    job.vacancy += 1
+                    job.save()
+
         # notify candidate
         verb_map = {'Approved': 'approved', 'Rejected': 'not selected', 'Pending': 'set back to pending'}
         try:
