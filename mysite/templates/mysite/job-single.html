@@ -91,7 +91,10 @@
 {#              </div>#}
               {% if user.is_staff %}
               <div class="col-12">
-                <p class="text-muted small mb-0"><em>You're signed in as a recruiter; recruiters can't apply to jobs.</em></p>
+                <div class="alert alert-warning border border-warning" role="alert">
+                  <strong>⚠️ Recruiter Access</strong><br>
+                  <p class="mb-0">You're signed in as a recruiter; recruiters can't apply to jobs.</p>
+                </div>
               </div>
               {% else %}
               <div class="col-6">
@@ -105,7 +108,7 @@
             <div class="bg-light p-3 border rounded mb-4">
               <h3 class="text-primary  mt-3 h5 pl-3 mb-3 ">Job Summary</h3>
               <ul class="list-unstyled pl-3 mb-0">
-                <li class="mb-2"><strong class="text-black">Published on:</strong> April 14, 2019</li>
+                <li class="mb-2"><strong class="text-black">Published on:</strong> {{ q.published_on|date:"F d, Y" }}</li>
                 <li class="mb-2"><strong class="text-black">Vacancy:</strong> {{ q.vacancy }}</li>
                 <li class="mb-2"><strong class="text-black">Employment Status:</strong> {{ q.employment_status }}</li>
                 <li class="mb-2"><strong class="text-black">Experience:</strong> {{ q.experience }}</li>
