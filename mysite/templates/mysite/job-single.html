@@ -96,6 +96,13 @@
                   <p class="mb-0">You're signed in as a recruiter; recruiters can't apply to jobs.</p>
                 </div>
               </div>
+              {% elif q.vacancy <= 0 %}
+              <div class="col-12">
+                <div class="alert alert-danger border border-danger" role="alert">
+                  <strong>❌ No Vacancy Available</strong><br>
+                  <p class="mb-0">Sorry, there are no open positions for this job at the moment. Please check back later!</p>
+                </div>
+              </div>
               {% else %}
               <div class="col-6">
                 <a href="{% url 'applyjob' id=q.id %}" class="btn btn-block btn-primary btn-md">Apply Now</a>

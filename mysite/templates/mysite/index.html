@@ -190,6 +190,13 @@
                             <div class="job-listing-meta">
                                 <span class="badge badge-danger">{{ job_listing.salary }}</span>
                             </div>
+                            <div class="job-listing-meta">
+                                {% if job_listing.vacancy > 0 %}
+                                    <span class="badge badge-info">{{ job_listing.vacancy }} Open</span>
+                                {% else %}
+                                    <span class="badge badge-secondary">Closed</span>
+                                {% endif %}
+                            </div>
                         </div>
 
                     </li>
