@@ -6,10 +6,10 @@
     <section class="section-hero overlay inner-page bg-image"
              style="background-image: url({% static 'mysite/images/hero_1.jpg' %});" id="home-section">
         <div class="container">
-            <div class="row">
-                <div class="col-md-7">
+            <div class="row justify-content-center">
+                <div class="col-md-7 text-center">
                     <h1 class="text-white font-weight-bold">Post A Job</h1>
-                    <div class="custom-breadcrumbs">
+                    <div class="custom-breadcrumbs justify-content-center d-flex">
                         <a href="#">Home</a> <span class="mx-2 slash">/</span>
                         <a href="#">Job</a> <span class="mx-2 slash">/</span>
                         <span class="text-white"><strong>Post a Job</strong></span>
@@ -61,7 +61,7 @@
                         <div class="form-group">
                             <label for="job-title">Job Title</label>
                             <input type="text" class="form-control" id="job-title" name="title"
-                                   placeholder="Product Designer" required>
+                                   placeholder="SOFTWARE ENGINEER" required>
                         </div>
                         {#                        <div class="form-group">#}
                         {#                            <label for="email">Email</label>#}
@@ -98,20 +98,13 @@
 
                         <div class="form-group">
                             <label class="text-black" for="details">Job Description</label>
-                            <div class="editor" id="editor-1">
-                                <input type="text" class="form-control" id="details" name="details"
-                                       placeholder="Write Job description..." required>
-                            </div>
-
-                            {#                            <div class="editor" id="editor-2">#}
-                            {#                                <p>Write Job responsibilities!</p>#}
-                            {#                            </div>#}
+                            <input type="text" class="form-control" id="details" name="details"
+                                   placeholder="Write Job description..." required>
                         </div>
                         <div class="form-group">
                             <label for="responsibilities">Job Responsibilities</label>
-                            <div class="editor" id="editor-2">
-                                <input type="text" class="form-control" id="responsibilities"
-                                       name="responsibilities" placeholder="Write Job responsibilities..." required></div>
+                            <input type="text" class="form-control" id="responsibilities"
+                                   name="responsibilities" placeholder="Write Job responsibilities..." required>
                         </div>
 
 
@@ -129,7 +122,7 @@
                         <div class="form-group">
                             <label for="job-location">Job Location</label>
                             <input type="text" class="form-control" id="job-location" name="job_location"
-                                   placeholder="Dhaka, Bangladesh" required>
+                                   placeholder="Talisay, Chmsu" required>
                         </div>
 
                         <div class="form-group">
