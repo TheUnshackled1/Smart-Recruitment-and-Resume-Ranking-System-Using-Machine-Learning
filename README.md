@@ -99,12 +99,14 @@ Candidates → Job Search, Apply Job, Upload CV, Participate Assessment
                               ↓
                     Shortlisted CVs
 ```
+![alt text](image.png)
 
 ### CV Ranking Model Architecture
 
 The ranking system processes candidate information through a well-designed pipeline that ensures accurate and fair candidate evaluation.
 
 The system accepts data from three main sources: CV uploads, GitHub profiles, and LinkedIn profiles. This multi-source approach gives me a comprehensive view of each candidate's qualifications.
+![alt text](image-1.png)
 
 **Processing Pipeline:**
 
@@ -122,24 +124,24 @@ Finally, I calculate a final score that combines both the CV matching score and 
 
 **Basic Requirements Filtering**
 
-Before I even start ranking, I ensure candidates meet the fundamental requirements. I filter based on academic CGPA or degree qualifications and minimum required years of experience. This ensures I'm working with qualified candidates from the start.
+Before we even start ranking, we ensure candidates meet the fundamental requirements. We filter based on academic CGPA or degree qualifications and minimum required years of experience. This ensures we're working with qualified candidates from the start.
 
 **Data Pre-processing**
 
-My system cleans and standardizes the candidate data through data cleaning (removing special characters, signals, and numbers), word stemming, and verb lemmatization. This normalization step ensures consistent comparison across all resumes.
+Our system cleans and standardizes the candidate data through data cleaning (removing special characters, signals, and numbers), word stemming, and verb lemmatization. This normalization step ensures consistent comparison across all resumes.
 
 **TF-IDF Calculation**
 
-I use TF-IDF (Term Frequency-Inverse Document Frequency) to understand which keywords are most important in matching a candidate to a job. The calculation works as follows:
+We use TF-IDF (Term Frequency-Inverse Document Frequency) to understand which keywords are most important in matching a candidate to a job. The calculation works as follows:
 
 - TF(keyword) measures how often a keyword appears in a resume
-- IDF(keyword) measures how unique that keyword is across all resumes. For required skills, I set IDF to 1, and for unwanted skills, I set it to 0
-- weight(keyword) = TF(keyword) × IDF(keyword), giving me a final importance score for each keyword
+- IDF(keyword) measures how unique that keyword is across all resumes. For required skills, we set IDF to 1, and for unwanted skills, we set it to 0
+- weight(keyword) = TF(keyword) × IDF(keyword), giving us a final importance score for each keyword
 
 **Document Similarity Matching**
 
-I use the TF-IDF weighted vectors and apply the K-Nearest Neighbors (KNN) algorithm to find candidates most similar to the job requirements. This involves calculating cosine similarity between each CV and the job description to find the best matches.
+We use the TF-IDF weighted vectors and apply the K-Nearest Neighbors (KNN) algorithm to find candidates most similar to the job requirements. This involves calculating cosine similarity between each CV and the job description to find the best matches.
 
 **Final Scoring**
 
-The final score combines the candidate's skill matching score with their assessment performance. I then rank all candidates based on this final score and return the top K candidates (typically the top 20) as my recommendations to the recruiter.
+The final score combines the candidate's skill matching score with their assessment performance. We then rank all candidates based on this final score and return the top K candidates (typically the top 20) as our recommendations to the recruiter.
