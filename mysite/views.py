@@ -209,7 +209,7 @@ def post_job(request):
         job = PostJob.objects.filter(title=title, company_name=company_name, employment_status=employment_status)
         print(job)
         if not job:
-            ins = PostJob(title=title, company_name=company_name, employment_status=employment_status, vacancy=vacancy,
+            ins = PostJob(user=request.user, title=title, company_name=company_name, employment_status=employment_status, vacancy=vacancy,
                           gender=gender, details=details,
                           responsibilities=responsibilities, experience=experience, other_benefits=other_benefits,
                           job_location=job_location, salary=salary, application_deadline=application_deadline)
@@ -350,6 +350,12 @@ def _verdict(score):
 @staff_required
 def ranking(request, id):
     job_data = PostJob.objects.get(id=id)
+
+    # Check if the current recruiter owns this job
+    if job_data.user != request.user:
+        messages.info(request, 'You can only view rankings for jobs you posted.')
+        return redirect('job-listings')
+
     print(job_data.id, job_data.title, job_data.company_name)
     resumes_data = Apply_job.objects.filter(company_name=job_data.company_name, title=job_data.title,
                                             cv__isnull=False)
