@@ -134,10 +134,6 @@ def logout(request):
     return redirect('/')
 
 
-def about(request):
-    return render(request, 'mysite/about.html')
-
-
 @login_required(login_url='login')
 def job_single(request, id):
     job_query = PostJob.objects.get(id=id)
