@@ -108,9 +108,14 @@
               </div>
 
             </form>
-            <div>
+            <div class="mt-4">
                 {% for message in messages %}
-                <h3>{{ message }}</h3>
+                <div class="alert alert-info alert-dismissible fade show" role="alert">
+                  <strong>ℹ️ Info:</strong> {{ message }}
+                  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
                 {% endfor %}
             </div>
           </div>
