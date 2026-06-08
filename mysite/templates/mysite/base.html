@@ -8,7 +8,9 @@
     <meta name="description" content="" />
     <meta name="keywords" content="" />
     <meta name="author" content="Free-Template.co" />
-    <link rel="shortcut icon" href="ftco-32x32.png">
+    <link rel="shortcut icon" href="{% static 'mysite/images/dj.png' %}">
+    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'mysite/images/dj.png' %}">
+    <link rel="icon" type="image/png" sizes="192x192" href="{% static 'mysite/images/dj.png' %}">
 
     {% load static %}
     <link rel="stylesheet" href="{% static 'mysite/css/custom-bs.css' %}">
@@ -54,7 +56,7 @@
     <header class="site-navbar mt-3">
         <div class="container-fluid">
             <div class="row align-items-center">
-                <div class="site-logo col-6"><a href="{% url 'index' %}">JobBoard</a></div>
+                <div class="site-logo col-6"><a href="{% url 'index' %}">Smart Recruitment</a></div>
 
                  <nav class="mx-auto site-navigation">
 
