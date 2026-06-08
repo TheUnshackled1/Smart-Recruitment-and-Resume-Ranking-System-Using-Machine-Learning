@@ -134,6 +134,22 @@ def logout(request):
     return redirect('/')
 
 
+def contact(request):
+    if request.method == 'POST':
+        name = request.POST.get('name')
+        email = request.POST.get('email')
+        phone = request.POST.get('phone')
+        subject = request.POST.get('subject')
+        desc = request.POST.get('desc')
+
+        contact_obj = Contact(name=name, email=email, phone=phone, subject=subject, desc=desc)
+        contact_obj.save()
+        messages.info(request, 'Your message has been sent successfully!')
+        return redirect('contact')
+
+    return render(request, 'mysite/contact.html')
+
+
 @login_required(login_url='login')
 def job_single(request, id):
     job_query = PostJob.objects.get(id=id)
@@ -223,47 +239,6 @@ def post_job(request):
             print('This job is already posted!')
         return redirect('job-listings')
     return render(request, 'mysite/post-job.html', {})
-
-
-def contact(request):
-    if request.method == "POST":
-        name = request.POST['name']
-        email = request.POST['email']
-        # phone = request.POST['phone']
-        if 'phone' in request.POST:
-            phone = request.POST['phone']
-        else:
-            phone = False
-
-        if 'subject' in request.POST:
-            subject = request.POST['subject']
-        else:
-            subject = False
-
-        if 'desc' in request.POST:
-            desc = request.POST['desc']
-        else:
-            desc = False
-
-        # desc = request.POST['desc']
-        # print(name, email, phone, subject, desc)
-        ins = Contact(name=name, email=email, phone=phone, subject=subject, desc=desc)
-        ins.save()
-        print("Data has been save in database!")
-
-        # (b) deliver contact message to admin inbox (console backend in dev)
-        try:
-            send_mail(
-                'Contact form: ' + str(subject),
-                'From: ' + name + ' <' + email + '>  phone: ' + str(phone) + '\n\n' + str(desc),
-                settings.DEFAULT_FROM_EMAIL, [settings.CONTACT_EMAIL], fail_silently=True)
-        except Exception as e:
-            print('email error:', e)
-
-        return redirect('/')
-
-    else:
-        return render(request, "mysite/contact.html")
 
 
 @login_required(login_url='login')
