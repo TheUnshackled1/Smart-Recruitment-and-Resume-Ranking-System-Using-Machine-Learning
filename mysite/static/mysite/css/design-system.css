@@ -1,0 +1,420 @@
+/*
+ * Smart Recruitment Design System
+ * Professional + Innovative aesthetic
+ * Navy + Teal color palette
+ * Poppins + Inter typography
+ */
+
+/* ============================================
+   CSS VARIABLES - Design System Foundation
+   ============================================ */
+
+:root {
+  /* PRIMARY COLORS */
+  --color-navy: #001F3F;
+  --color-dark-navy: #000F1F;
+  --color-teal: #00D9FF;
+  --color-light-teal: #B3F1FF;
+
+  /* NEUTRAL COLORS */
+  --color-dark-text: #2C3E50;
+  --color-medium-text: #55606B;
+  --color-light-text: #7F8C8D;
+  --color-light-grey: #ECF0F1;
+  --color-lighter-grey: #F8F9FA;
+  --color-border: #E0E0E0;
+  --color-white: #FFFFFF;
+
+  /* SEMANTIC COLORS */
+  --color-success: #27AE60;
+  --color-warning: #F39C12;
+  --color-danger: #E74C3C;
+  --color-info: #3498DB;
+
+  /* TYPOGRAPHY */
+  --font-display: "Poppins", sans-serif;
+  --font-body: "Inter", sans-serif;
+
+  /* FONT SIZES */
+  --text-h1: 2.5rem;
+  --text-h2: 2rem;
+  --text-h3: 1.5rem;
+  --text-h4: 1.25rem;
+  --text-h5: 1.125rem;
+  --text-h6: 1rem;
+  --text-body: 1rem;
+  --text-small: 0.875rem;
+  --text-tiny: 0.75rem;
+
+  /* FONT WEIGHTS */
+  --weight-thin: 300;
+  --weight-normal: 400;
+  --weight-medium: 500;
+  --weight-semibold: 600;
+  --weight-bold: 700;
+  --weight-extrabold: 800;
+
+  /* SPACING */
+  --spacing-xs: 0.5rem;
+  --spacing-sm: 1rem;
+  --spacing-md: 1.5rem;
+  --spacing-lg: 2rem;
+  --spacing-xl: 3rem;
+  --spacing-2xl: 4rem;
+  --spacing-3xl: 6rem;
+
+  /* MOTION */
+  --transition-fast: 0.2s ease-out;
+  --transition-base: 0.3s ease-out;
+  --transition-slow: 0.5s ease-out;
+
+  /* SHADOWS */
+  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.08);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.12);
+  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.15);
+  --shadow-xl: 0 12px 40px rgba(0, 0, 0, 0.2);
+
+  /* BORDER RADIUS */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  --radius-full: 9999px;
+
+  /* Z-INDEX */
+  --z-dropdown: 100;
+  --z-sticky: 500;
+  --z-fixed: 1000;
+  --z-modal: 1500;
+  --z-tooltip: 1700;
+}
+
+/* ============================================
+   BASE STYLES
+   ============================================ */
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-body);
+  font-size: var(--text-body);
+  line-height: 1.6;
+  color: var(--color-dark-text);
+  background-color: var(--color-white);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ============================================
+   TYPOGRAPHY
+   ============================================ */
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-display);
+  font-weight: var(--weight-bold);
+  line-height: 1.2;
+  margin: var(--spacing-lg) 0 var(--spacing-md) 0;
+  color: var(--color-dark-text);
+}
+
+h1 {
+  font-size: var(--text-h1);
+  font-weight: var(--weight-extrabold);
+}
+
+h2 {
+  font-size: var(--text-h2);
+  font-weight: var(--weight-bold);
+}
+
+h3 {
+  font-size: var(--text-h3);
+}
+
+h4 {
+  font-size: var(--text-h4);
+}
+
+h5 {
+  font-size: var(--text-h5);
+}
+
+h6 {
+  font-size: var(--text-h6);
+  font-weight: var(--weight-semibold);
+}
+
+p {
+  margin: 0 0 var(--spacing-md) 0;
+  color: var(--color-dark-text);
+}
+
+small {
+  font-size: var(--text-small);
+}
+
+strong, .font-weight-bold {
+  font-weight: var(--weight-bold);
+}
+
+/* ============================================
+   LINKS
+   ============================================ */
+
+a {
+  color: var(--color-teal);
+  text-decoration: none;
+  transition: color var(--transition-base);
+}
+
+a:hover {
+  color: var(--color-navy);
+  text-decoration: underline;
+}
+
+/* ============================================
+   BUTTONS - Core Styles
+   ============================================ */
+
+.btn {
+  font-family: var(--font-display);
+  font-weight: var(--weight-semibold);
+  border-radius: var(--radius-md);
+  padding: 0.75rem 1.5rem;
+  font-size: var(--text-body);
+  transition: all var(--transition-base);
+  border: none;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+}
+
+.btn:hover {
+  text-decoration: none;
+}
+
+.btn-primary {
+  background-color: var(--color-teal);
+  color: var(--color-navy);
+  border: 2px solid var(--color-teal);
+}
+
+.btn-primary:hover {
+  background-color: var(--color-navy);
+  color: var(--color-teal);
+  border-color: var(--color-navy);
+}
+
+.btn-primary:active {
+  transform: scale(0.98);
+}
+
+.btn-secondary {
+  background-color: transparent;
+  color: var(--color-navy);
+  border: 2px solid var(--color-navy);
+}
+
+.btn-secondary:hover {
+  background-color: var(--color-navy);
+  color: var(--color-white);
+}
+
+.btn-lg {
+  padding: 1rem 2rem;
+  font-size: 1.1rem;
+}
+
+.btn-sm {
+  padding: 0.5rem 1rem;
+  font-size: var(--text-small);
+}
+
+/* ============================================
+   FORM ELEMENTS
+   ============================================ */
+
+.form-control {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 0.75rem 1rem;
+  font-family: var(--font-body);
+  font-size: var(--text-body);
+  color: var(--color-dark-text);
+  transition: all var(--transition-base);
+}
+
+.form-control:focus {
+  border-color: var(--color-teal);
+  box-shadow: 0 0 0 3px rgba(0, 217, 255, 0.1);
+  outline: none;
+}
+
+.form-control::placeholder {
+  color: var(--color-light-text);
+}
+
+select.form-control {
+  cursor: pointer;
+}
+
+/* ============================================
+   CARDS
+   ============================================ */
+
+.card {
+  border: none;
+  border-left: 4px solid var(--color-navy);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  transition: all var(--transition-base);
+  overflow: hidden;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+}
+
+.card-header {
+  background-color: var(--color-lighter-grey);
+  border-bottom: 1px solid var(--color-border);
+  padding: var(--spacing-lg);
+}
+
+.card-body {
+  padding: var(--spacing-lg);
+}
+
+.card-title {
+  font-family: var(--font-display);
+  font-weight: var(--weight-bold);
+  color: var(--color-navy);
+}
+
+/* ============================================
+   BADGES
+   ============================================ */
+
+.badge {
+  font-family: var(--font-display);
+  font-weight: var(--weight-semibold);
+  border-radius: var(--radius-full);
+  padding: 0.35rem 0.75rem;
+  font-size: var(--text-small);
+  display: inline-block;
+}
+
+.badge-primary {
+  background-color: var(--color-navy);
+  color: var(--color-white);
+}
+
+.badge-success {
+  background-color: var(--color-success);
+  color: var(--color-white);
+}
+
+.badge-warning {
+  background-color: var(--color-warning);
+  color: var(--color-white);
+}
+
+.badge-danger {
+  background-color: var(--color-danger);
+  color: var(--color-white);
+}
+
+/* ============================================
+   SECTIONS & SPACING
+   ============================================ */
+
+section {
+  padding: var(--spacing-3xl) 0;
+}
+
+section.section-lg {
+  padding: 5rem 0;
+}
+
+section.section-sm {
+  padding: var(--spacing-xl) 0;
+}
+
+/* Accent line divider */
+section::before {
+  content: "";
+  display: block;
+  width: 60px;
+  height: 3px;
+  background: linear-gradient(90deg, var(--color-teal), transparent);
+  margin: 0 0 var(--spacing-md) 0;
+}
+
+/* ============================================
+   UTILITY CLASSES
+   ============================================ */
+
+.text-primary {
+  color: var(--color-navy) !important;
+}
+
+.text-accent {
+  color: var(--color-teal) !important;
+}
+
+.text-muted {
+  color: var(--color-light-text) !important;
+}
+
+.bg-primary {
+  background-color: var(--color-navy) !important;
+}
+
+.bg-accent {
+  background-color: var(--color-teal) !important;
+}
+
+.bg-light {
+  background-color: var(--color-lighter-grey) !important;
+}
+
+/* Margin utilities */
+.mt-0 { margin-top: 0; }
+.mt-1 { margin-top: var(--spacing-xs); }
+.mt-2 { margin-top: var(--spacing-sm); }
+.mt-3 { margin-top: var(--spacing-md); }
+.mt-4 { margin-top: var(--spacing-lg); }
+.mt-5 { margin-top: var(--spacing-xl); }
+
+.mb-0 { margin-bottom: 0; }
+.mb-1 { margin-bottom: var(--spacing-xs); }
+.mb-2 { margin-bottom: var(--spacing-sm); }
+.mb-3 { margin-bottom: var(--spacing-md); }
+.mb-4 { margin-bottom: var(--spacing-lg); }
+.mb-5 { margin-bottom: var(--spacing-xl); }
+
+/* Padding utilities */
+.p-2 { padding: var(--spacing-sm); }
+.p-3 { padding: var(--spacing-md); }
+.p-4 { padding: var(--spacing-lg); }
+
+/* ============================================
+   RESPONSIVE ADJUSTMENTS
+   ============================================ */
+
+@media (max-width: 768px) {
+  :root {
+    --text-h1: 2rem;
+    --text-h2: 1.5rem;
+    --text-h3: 1.25rem;
+  }
+
+  section {
+    padding: var(--spacing-xl) 0;
+  }
+}

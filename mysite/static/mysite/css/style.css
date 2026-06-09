@@ -1667,3 +1667,183 @@ h1, h2, h3, h4 {
   -webkit-transform: translate(-50%, -50%);
   -ms-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%); }
+
+/* ============================================
+   DESIGN SYSTEM COLOR OVERRIDES
+   Navy + Teal Professional + Innovative Aesthetic
+   ============================================ */
+
+/* Primary accent color: #89ba16 (olive green) → var(--color-teal) */
+.site-navbar .site-navigation .site-menu .has-children .dropdown {
+  border-top-color: var(--color-teal) !important;
+}
+
+.site-navbar .site-navigation .site-menu .has-children .dropdown a.active {
+  color: var(--color-teal) !important;
+}
+
+.site-navbar .site-navigation .site-menu .has-children .dropdown > li.has-children > a.active {
+  color: var(--color-teal) !important;
+}
+
+/* Button primary color */
+.btn-primary {
+  background-color: var(--color-teal) !important;
+  border-color: var(--color-teal) !important;
+  color: var(--color-navy) !important;
+}
+
+.btn-primary:hover,
+.btn-primary:focus {
+  background-color: var(--color-navy) !important;
+  border-color: var(--color-navy) !important;
+  color: var(--color-teal) !important;
+}
+
+/* Hero section improvements */
+.home-section.section-hero {
+  position: relative;
+}
+
+.home-section.section-hero::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, rgba(0, 31, 63, 0.75), rgba(0, 15, 31, 0.85));
+  z-index: 1;
+}
+
+.home-section.section-hero .container {
+  position: relative;
+  z-index: 2;
+}
+
+/* Text styles */
+.home-section h1 {
+  color: var(--color-white);
+  font-family: var(--font-display);
+  font-weight: 800;
+}
+
+.home-section p {
+  color: var(--color-light-teal);
+}
+
+/* Search form styling */
+.search-jobs-form .form-control {
+  border: 1px solid var(--color-border);
+}
+
+.search-jobs-form .form-control:focus {
+  border-color: var(--color-teal);
+  box-shadow: 0 0 0 3px rgba(0, 217, 255, 0.1);
+}
+
+/* Links accent color */
+a:not(.btn) {
+  color: var(--color-teal);
+}
+
+a:not(.btn):hover {
+  color: var(--color-navy);
+}
+
+/* Job listing cards */
+.job-listing {
+  border-left: 4px solid var(--color-navy) !important;
+  transition: all var(--transition-base);
+}
+
+.job-listing:hover {
+  transform: translateY(-4px);
+  border-left-color: var(--color-teal) !important;
+  box-shadow: var(--shadow-lg);
+}
+
+/* Badges and tags */
+.badge-primary {
+  background-color: var(--color-navy) !important;
+}
+
+.badge-secondary {
+  background-color: var(--color-teal) !important;
+  color: var(--color-navy) !important;
+}
+
+/* Text colors */
+.text-primary {
+  color: var(--color-navy) !important;
+}
+
+.text-muted {
+  color: var(--color-light-text) !important;
+}
+
+/* Section backgrounds */
+section {
+  position: relative;
+}
+
+section.bg-light {
+  background-color: var(--color-lighter-grey) !important;
+}
+
+/* Table and list styles */
+table tr:hover {
+  background-color: rgba(0, 217, 255, 0.05);
+}
+
+/* Form focus states */
+.form-control:focus,
+textarea:focus,
+select:focus {
+  border-color: var(--color-teal) !important;
+  box-shadow: 0 0 0 3px rgba(0, 217, 255, 0.1) !important;
+}
+
+/* Navigation active states */
+.nav-link.active,
+.nav-link:hover {
+  color: var(--color-teal) !important;
+}
+
+/* Alert colors */
+.alert-primary {
+  background-color: rgba(0, 217, 255, 0.1) !important;
+  border-color: var(--color-teal) !important;
+  color: var(--color-navy) !important;
+}
+
+/* Progress bars */
+.progress-bar {
+  background-color: var(--color-teal) !important;
+}
+
+/* Tooltip and popover */
+.tooltip-inner {
+  background-color: var(--color-navy) !important;
+}
+
+.popover {
+  border: 1px solid var(--color-border) !important;
+}
+
+.popover-header {
+  background-color: var(--color-navy) !important;
+  color: var(--color-white) !important;
+}
+
+/* Loading spinner */
+.spinner-border {
+  color: var(--color-teal) !important;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .home-section.section-hero::after {
+    background: linear-gradient(135deg, rgba(0, 31, 63, 0.8), rgba(0, 15, 31, 0.9));
+  }
+}

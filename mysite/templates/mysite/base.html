@@ -13,6 +13,11 @@
     <link rel="icon" type="image/png" sizes="192x192" href="{% static 'mysite/images/dj.png' %}">
 
     {% load static %}
+    <!-- FONTS: Poppins (display) + Inter (body) -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+    <!-- BOOTSTRAP & VENDOR CSS -->
     <link rel="stylesheet" href="{% static 'mysite/css/custom-bs.css' %}">
     <link rel="stylesheet" href="{% static 'mysite/css/jquery.fancybox.min.css' %}">
     <link rel="stylesheet" href="{% static 'mysite/css/bootstrap-select.min.css' %}">
@@ -22,6 +27,10 @@
     <link rel="stylesheet" href="{% static 'mysite/css/animate.min.css' %}">
    <!-- <link rel="stylesheet" href="{% static 'mysite/css/quill.snow.css' %}">  -->
 
+    <!-- DESIGN SYSTEM CSS -->
+    <link rel="stylesheet" href="{% static 'mysite/css/design-system.css' %}">
+    <link rel="stylesheet" href="{% static 'mysite/css/animations.css' %}">
+    <link rel="stylesheet" href="{% static 'mysite/css/components.css' %}">
 
     <!-- MAIN CSS -->
     <link rel="stylesheet" href="{% static 'mysite/css/style.css' %}">
@@ -198,6 +207,9 @@
 {% endblock %}
 
 <script src="{% static 'mysite/js/bootstrap-select.min.js' %}"></script>
+
+<!-- DESIGN SYSTEM JS - Animations and Interactions -->
+<script src="{% static 'mysite/js/design-system.js' %}"></script>
 
 <script src="{% static 'mysite/js/custom.js' %}"></script>
 
