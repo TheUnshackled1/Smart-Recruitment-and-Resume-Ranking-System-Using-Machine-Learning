@@ -1,0 +1,15 @@
+Hi {{ candidate_name }},
+
+Great news!
+
+Your application for "{{ job_title }}" at {{ company_name }} has been approved.
+
+Onboarding Details:
+{% if start_date %}Start Date: {{ start_date }}
+{% endif %}{% if start_location %}Location: {{ start_location }}
+{% endif %}{% if interview_details %}Interview Details: {{ interview_details }}
+{% endif %}
+If you have any questions, please reach out to the recruiting team.
+
+Best regards,
+Smart Recruitment Team

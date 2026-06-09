@@ -179,3 +179,19 @@ CONTACT_EMAIL = os.environ.get('CONTACT_EMAIL', EMAIL_HOST_USER or 'admin@smartr
 # Dev fallback: console backend prints to runserver terminal (no real send).
 # Uncomment to switch back:
 # EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+# ============================================================================
+# ML RANKING PIPELINE - Score thresholds (cosine distance: 0..2, lower=better)
+# ============================================================================
+RANKING_SCORE_THRESHOLDS = {
+    'STRONG': 0.60,      # Excellent match
+    'POSSIBLE': 0.85,    # Possible match
+    'WEAK': float('inf'), # Weak or off-topic (any score > 0.85)
+}
+
+# ============================================================================
+# FILE UPLOAD - Security restrictions for CV uploads
+# ============================================================================
+CV_UPLOAD_ALLOWED_EXTENSIONS = ['.pdf', '.doc', '.docx']
+CV_UPLOAD_MAX_SIZE_MB = 5  # Max file size in MB
+CV_UPLOAD_MAX_SIZE_BYTES = CV_UPLOAD_MAX_SIZE_MB * 1024 * 1024

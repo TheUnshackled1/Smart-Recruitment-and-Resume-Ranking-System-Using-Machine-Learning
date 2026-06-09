@@ -4,7 +4,7 @@ from django.contrib.auth.models import User, auth
 from django.core.files.storage import FileSystemStorage
 from mysite import models
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from django.http import HttpResponseRedirect, request
+from django.http import HttpResponseRedirect, HttpResponseBadRequest, request
 from django.urls import reverse
 from django.db.models import Count
 
@@ -18,6 +18,8 @@ from django.contrib.auth.decorators import login_required
 from django.views.generic import ListView
 from django.core.mail import send_mail
 from django.conf import settings
+from django.template.loader import render_to_string
+import pathlib
 
 
 # Recruiter-only gate: must be logged in AND a staff user.
@@ -258,8 +260,34 @@ def applyjob(request, id):
         print(experience)
 
         coverletter = request.POST['coverletter']
-        cv = request.FILES['cv']
-        print(cv)
+        cv = request.FILES.get('cv')
+
+        # ========== FILE UPLOAD VALIDATION ==========
+        if not cv:
+            messages.error(request, 'Please upload a CV file.')
+            return redirect('applyjob', id=id)
+
+        # Check file extension
+        file_ext = pathlib.Path(cv.name).suffix.lower()
+        allowed_exts = settings.CV_UPLOAD_ALLOWED_EXTENSIONS
+        if file_ext not in allowed_exts:
+            messages.error(
+                request,
+                f'Invalid file format. Allowed formats: {", ".join(allowed_exts)}'
+            )
+            return redirect('applyjob', id=id)
+
+        # Check file size
+        max_size = settings.CV_UPLOAD_MAX_SIZE_BYTES
+        if cv.size > max_size:
+            max_size_mb = settings.CV_UPLOAD_MAX_SIZE_MB
+            messages.error(
+                request,
+                f'File too large. Maximum size: {max_size_mb}MB. Your file: {cv.size / (1024*1024):.1f}MB'
+            )
+            return redirect('applyjob', id=id)
+        # =========================================
+
         print(cv)
         Apply_job.objects.filter(name=name, email__exact=email, company_name=job.company_name, title=job.title).delete()
         ins = Apply_job(name=name, email=email, cv=cv, experience=experience,coverletter=coverletter, company_name=job.company_name, gender=gender,
@@ -271,21 +299,30 @@ def applyjob(request, id):
         # email notifications (console backend in dev)
         try:
             # (a) confirmation to candidate
-            send_mail(
-                'Application received - ' + job.title,
-                'Hi ' + name + ',\n\nWe received your application for "' + job.title +
-                '" at ' + job.company_name + '.\nWe will contact you about next steps.\n\n- Smart Recruitment',
-                settings.DEFAULT_FROM_EMAIL, [email], fail_silently=True)
-            # (c) alert all recruiters (staff users)
+            email_subject = f'Application received - {job.title}'
+            email_body = render_to_string('emails/application_received.txt', {
+                'candidate_name': name,
+                'job_title': job.title,
+                'company_name': job.company_name,
+            })
+            send_mail(email_subject, email_body, settings.DEFAULT_FROM_EMAIL, [email], fail_silently=True)
+
+            # (b) alert all recruiters (staff users)
             recruiter_emails = list(
                 User.objects.filter(is_staff=True, is_active=True)
                 .exclude(email='').values_list('email', flat=True))
             if recruiter_emails:
-                send_mail(
-                    'New application: ' + job.title,
-                    name + ' (' + email + ') applied for "' + job.title + '" at ' +
-                    job.company_name + '. Experience: ' + str(experience) + ' yr(s).',
-                    settings.DEFAULT_FROM_EMAIL, recruiter_emails, fail_silently=True)
+                recruiter_subject = f'New application: {job.title}'
+                recruiter_body = render_to_string('emails/new_application_alert.txt', {
+                    'candidate_name': name,
+                    'candidate_email': email,
+                    'job_title': job.title,
+                    'company_name': job.company_name,
+                    'experience_years': experience,
+                    'candidate_gender': gender,
+                    'site_name': 'Smart Recruitment',
+                })
+                send_mail(recruiter_subject, recruiter_body, settings.DEFAULT_FROM_EMAIL, recruiter_emails, fail_silently=True)
         except Exception as e:
             print('email error:', e)
 
@@ -310,10 +347,21 @@ def applyjob(request, id):
 #                   {'items': result_arr, 'company_name': job_query.company_name, 'title': job_query.title})
 
 def _verdict(score):
-    # KNN-score = cosine distance (0..2). Lower = closer match.
-    if score <= 0.6:
+    """
+    Map cosine distance score to a verdict label with Bootstrap alert level.
+    Thresholds are configurable in settings.RANKING_SCORE_THRESHOLDS.
+
+    Args:
+        score: Cosine distance (0..2, lower = better match)
+
+    Returns:
+        Tuple of (verdict_label, bootstrap_alert_level)
+    """
+    thresholds = settings.RANKING_SCORE_THRESHOLDS
+
+    if score <= thresholds['STRONG']:
         return ('Strong match', 'success')
-    if score <= 0.85:
+    if score <= thresholds['POSSIBLE']:
         return ('Possible', 'warning')
     return ('Weak / off-topic', 'danger')
 
@@ -384,12 +432,16 @@ def approve_applicant(request, id):
         details_block = ('\n\n' + '\n'.join(parts)) if parts else ''
 
         try:
-            send_mail(
-                'Application approved: ' + app.title,
-                'Hi ' + app.name + ',\n\nGood news! Your application for "' +
-                app.title + '" at ' + app.company_name + ' has been approved.' +
-                details_block + '\n\n- Smart Recruitment',
-                settings.DEFAULT_FROM_EMAIL, [app.email], fail_silently=True)
+            email_subject = f'Application approved: {app.title}'
+            email_body = render_to_string('emails/application_approved.txt', {
+                'candidate_name': app.name,
+                'job_title': app.title,
+                'company_name': app.company_name,
+                'start_date': app.start_date,
+                'start_location': app.start_location,
+                'interview_details': app.interview_details,
+            })
+            send_mail(email_subject, email_body, settings.DEFAULT_FROM_EMAIL, [app.email], fail_silently=True)
         except Exception as e:
             print('email error:', e)
 
@@ -425,11 +477,14 @@ def set_status(request, id, status):
         # notify candidate
         verb_map = {'Approved': 'approved', 'Rejected': 'not selected', 'Pending': 'set back to pending'}
         try:
-            send_mail(
-                'Application status update: ' + app.title,
-                'Hi ' + app.name + ',\n\nYour application for "' + app.title + '" at ' +
-                app.company_name + ' has been ' + verb_map[status] + '.\n\n- Smart Recruitment',
-                settings.DEFAULT_FROM_EMAIL, [app.email], fail_silently=True)
+            email_subject = f'Application status update: {app.title}'
+            email_body = render_to_string('emails/application_status_update.txt', {
+                'candidate_name': app.name,
+                'job_title': app.title,
+                'company_name': app.company_name,
+                'new_status': status,
+            })
+            send_mail(email_subject, email_body, settings.DEFAULT_FROM_EMAIL, [app.email], fail_silently=True)
         except Exception as e:
             print('email error:', e)
         messages.info(request, app.name + ' marked ' + status + '.')

@@ -1,0 +1,11 @@
+Hi {{ candidate_name }},
+
+Your application status has been updated.
+
+Job: "{{ job_title }}" at {{ company_name }}
+Status: {{ new_status }}
+
+We appreciate your interest in our organization.
+
+Best regards,
+Smart Recruitment Team

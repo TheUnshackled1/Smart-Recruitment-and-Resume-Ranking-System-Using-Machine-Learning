@@ -1,0 +1,10 @@
+Hi {{ candidate_name }},
+
+Thank you for applying!
+
+We received your application for "{{ job_title }}" at {{ company_name }}.
+
+Our recruiting team will review your CV and contact you about the next steps within 3-5 business days.
+
+Best regards,
+Smart Recruitment Team

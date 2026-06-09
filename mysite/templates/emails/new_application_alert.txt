@@ -1,0 +1,10 @@
+New application received!
+
+Candidate: {{ candidate_name }}
+Email: {{ candidate_email }}
+Job: "{{ job_title }}" at {{ company_name }}
+Experience: {{ experience_years }} year(s)
+Gender: {{ candidate_gender }}
+
+View all applicants: {{ listings_url }}
+{{ site_name }}
