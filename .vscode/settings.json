@@ -1,0 +1,8 @@
+{
+    "chat.tools.terminal.autoApprove": {
+        "/^python -c \"import django; django\\.setup\\(\\)\" 2>&1 ; echo \"✅ Django loads successfully\"$/": {
+            "approve": true,
+            "matchCommandLine": true
+        }
+    }
+}

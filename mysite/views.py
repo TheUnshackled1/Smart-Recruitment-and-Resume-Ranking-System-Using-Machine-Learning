@@ -421,16 +421,6 @@ def approve_applicant(request, id):
                 job.vacancy -= 1
                 job.save()
 
-        # build details section for the email
-        parts = []
-        if app.start_date:
-            parts.append('Start date: ' + str(app.start_date))
-        if app.start_location:
-            parts.append('Location: ' + app.start_location)
-        if app.interview_details:
-            parts.append('Details: ' + app.interview_details)
-        details_block = ('\n\n' + '\n'.join(parts)) if parts else ''
-
         try:
             email_subject = f'Application approved: {app.title}'
             email_body = render_to_string('emails/application_approved.txt', {
@@ -475,7 +465,6 @@ def set_status(request, id, status):
                     job.save()
 
         # notify candidate
-        verb_map = {'Approved': 'approved', 'Rejected': 'not selected', 'Pending': 'set back to pending'}
         try:
             email_subject = f'Application status update: {app.title}'
             email_body = render_to_string('emails/application_status_update.txt', {
