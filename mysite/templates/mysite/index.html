@@ -163,11 +163,35 @@
 
 
     <section class="site-section">
+        <style>
+          /* Job Listed title white */
+          .job-section-title {
+            color: #FFFFFF !important;
+          }
+          /* Job listing card hover effect */
+          .job-listings .job-listing {
+            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1),
+                        box-shadow 0.3s ease,
+                        filter 0.3s ease;
+            cursor: pointer;
+            border-radius: 8px;
+          }
+          .job-listings .job-listing:hover {
+            transform: scale(1.02);
+            box-shadow: 0 8px 30px rgba(255, 255, 255, 0.15);
+            filter: brightness(1.08);
+          }
+          /* Pagination text white */
+          .pagination-wrap span,
+          .pagination-wrap .d-inline-block {
+            color: #FFFFFF !important;
+          }
+        </style>
         <div class="container">
 
             <div class="row mb-5 justify-content-center">
                 <div class="col-md-7 text-center">
-                    <h2 class="section-title mb-2">{{ job_len }} Job Listed</h2>
+                    <h2 class="section-title mb-2 job-section-title">{{ job_len }} Job Listed</h2>
                 </div>
             </div>
 
