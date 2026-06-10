@@ -164,9 +164,16 @@
 
     <section class="site-section">
         <style>
-          /* Job Listed title white */
-          .job-section-title {
+          /* Job Listed title white - force pure white, strip blue box */
+          .job-section-title,
+          h2.job-section-title {
             color: #FFFFFF !important;
+            background: transparent !important;
+            background-color: transparent !important;
+            -webkit-text-fill-color: #FFFFFF !important;
+          }
+          .job-section-title::after {
+            display: none !important;
           }
           /* Job listing card hover effect */
           .job-listings .job-listing {
@@ -191,7 +198,7 @@
 
             <div class="row mb-5 justify-content-center">
                 <div class="col-md-7 text-center">
-                    <h2 class="section-title mb-2 job-section-title">{{ job_len }} Job Listed</h2>
+                    <h2 class="section-title mb-2 job-section-title" style="color:#FFFFFF!important;background:transparent!important;-webkit-text-fill-color:#FFFFFF!important;">{{ job_len }} Job Listed</h2>
                 </div>
             </div>
 
@@ -292,7 +299,7 @@
                 <div class="col-12 text-center mt-4 mb-5">
                     <div class="row justify-content-center">
                         <div class="col-md-7">
-                            <h2 class="section-title mb-2 text-white">Company We've Helped</h2>
+                            <h2 class="section-title mb-2" style="color:#FFFFFF!important;background:transparent!important;-webkit-text-fill-color:#FFFFFF!important;">Company We've Helped</h2>
                         </div>
                     </div>
 
