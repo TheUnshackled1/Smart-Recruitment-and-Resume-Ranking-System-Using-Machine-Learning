@@ -9,7 +9,7 @@
     <style>
         /* Ranking table palette - readable on light background */
         .ranking-table { background: #ffffff !important; }
-        .ranking-table th { background:#1f2d3d; color:#fff; text-align:center; vertical-align:middle; }
+        .ranking-table th { background:#1f2d3d !important; color:#ffffff !important; text-align:center !important; vertical-align:middle !important; }
         .ranking-table td { vertical-align:middle; color: #1f2d3d !important; }
         .ranking-table tr.row-success { background:#e6f6ec !important; }
         .ranking-table tr.row-warning { background:#fff7e1 !important; }
@@ -26,13 +26,24 @@
         .status-Approved { background:#28a745; }
         .status-Rejected { background:#dc3545; }
         .status-Pending  { background:#6c757d; }
-        .btn-approve { background:#28a745; color:#fff; border:none; }
+        .btn-approve { background:#28a745; color:#fff; border:none; padding:.4rem .9rem; border-radius:.3rem; text-decoration:none; }
         .btn-approve:hover { background:#218838; color:#fff; }
-        .btn-reject  { background:#dc3545; color:#fff; border:none; }
+        .btn-reject  { background:#dc3545; color:#fff; border:none; padding:.4rem .9rem; border-radius:.3rem; }
         .btn-reject:hover { background:#c82333; color:#fff; }
-        .cv-link { color:#0d6efd; text-decoration:underline; font-weight:600; }
-        .legend { font-size:.9rem; color:#374151; background:#f3f4f6; padding:.6rem .9rem; border-left:4px solid #1f2d3d; border-radius:.25rem; }
-        .site-section h2 { color: #FFFFFF !important; }
+        .cv-link { color:#00D4FF !important; text-decoration:underline; font-weight:600; }
+        /* Legend and heading color for dark section background */
+        .legend {
+            font-size:.9rem;
+            color:#FFFFFF;
+            background: rgba(255, 255, 255, 0.08);
+            padding:.75rem 1rem;
+            border-left: 4px solid #00D4FF;
+            border-radius:.25rem;
+        }
+        .legend strong { color:#00D4FF !important; }
+        .site-section[style*="background"] h2 { color: #FFFFFF !important; }
+        /* Empty row message readable */
+        .ranking-table td.text-muted { color: #6c757d !important; }
     </style>
 {% endblock %}
 
@@ -40,13 +51,13 @@
     <section class="section-hero overlay inner-page bg-image"
              style="background-image: url({% static 'mysite/images/hero_1.jpg' %});" id="home-section">
         <div class="container">
-            <div class="row">
-                <div class="col-md-7">
+            <div class="row justify-content-center">
+                <div class="col-md-7 text-center">
                     <h1 class="text-white font-weight-bold">Shortlisted Candidates</h1>
-                    <div class="custom-breadcrumbs">
-                        <a href="#">Home</a> <span class="mx-2 slash">/</span>
+                    <div class="custom-breadcrumbs justify-content-center d-flex">
+                        <a href="/">Home</a> <span class="mx-2 slash">/</span>
                         <span class="text-white"><strong>{{ company_name }}</strong></span>
-                        <span class="text-white mx-2 slash"><strong>/</strong></span>
+                        <span class="text-white mx-2 slash">/</span>
                         <span class="text-white"><strong>{{ title }}</strong></span>
                     </div>
                 </div>
@@ -54,7 +65,7 @@
         </div>
     </section>
 
-    <section class="site-section">
+    <section class="site-section" style="background: #001F3F;">
         <div class="container">
             {% if messages %}
                 {% for message in messages %}
@@ -67,7 +78,7 @@
                 {% endfor %}
             {% endif %}
 
-            <h2 class="mb-3">Shortlisted Candidates</h2>
+            <h2 class="mb-3" style="color:#FFFFFF !important;">Shortlisted Candidates</h2>
             <p class="legend mb-3">
                 <strong>KNN-score</strong> = cosine distance (lower = closer match).
                 <strong>Verdict</strong>: &le; 0.60 <span class="verdict-badge verdict-success">Strong</span>,

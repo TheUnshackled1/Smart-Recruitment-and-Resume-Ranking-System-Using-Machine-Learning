@@ -110,6 +110,19 @@
         width: 100% !important;
         display: block !important;
       }
+      /* ── Custom file input visibility fixes ── */
+      .site-section .custom-file-label {
+        color: #495057 !important;
+        text-align: left !important;
+        padding-left: 20px !important;
+        display: block !important;
+        width: auto !important;
+        font-weight: normal !important;
+      }
+      .site-section .custom-file-label::after {
+        color: #495057 !important;
+        content: "Browse" !important;
+      }
     </style>
     <!-- HOME -->
     <section class="section-hero overlay inner-page bg-image"
@@ -207,6 +220,14 @@
         </div>
     </section>
 
-
-
+    <script>
+      // Automatically show the name of the file selected in Bootstrap's custom file input
+      document.getElementById('cv').addEventListener('change', function(e) {
+        var fileName = e.target.files[0] ? e.target.files[0].name : "Upload CV";
+        var label = e.target.previousElementSibling;
+        if (label && label.classList.contains('custom-file-label')) {
+          label.textContent = fileName;
+        }
+      });
+    </script>
 {% endblock body %}
