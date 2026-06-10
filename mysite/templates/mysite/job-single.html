@@ -2,6 +2,49 @@
 {% load static %}
 
 {% block body %}
+    <style>
+      /* ── Job title & meta (on dark section bg) ── */
+      .site-section h2 {
+        color: #FFFFFF !important;
+      }
+      .site-section .d-flex span {
+        color: rgba(255,255,255,0.8) !important;
+      }
+      /* ── Section headings: Job Description, Responsibilities, etc. ── */
+      .site-section h3.text-primary {
+        color: #00D4FF !important;
+      }
+      /* ── Body paragraph text white ── */
+      .site-section .col-lg-8 p {
+        color: #FFFFFF !important;
+      }
+      /* ── Sidebar cards text colors (since background is dark/transparent) ── */
+      .site-section .bg-light {
+        background-color: rgba(255, 255, 255, 0.05) !important;
+        border-color: rgba(255, 255, 255, 0.1) !important;
+      }
+      .site-section .bg-light h3 {
+        color: #00D4FF !important; /* Bright cyan title */
+      }
+      .site-section .bg-light li {
+        color: rgba(255, 255, 255, 0.8) !important; /* Light text for values */
+      }
+      .site-section .bg-light strong,
+      .site-section .bg-light .text-black {
+        color: #FFFFFF !important; /* Pure white for labels */
+      }
+      .site-section .bg-light .px-3 a span {
+        color: #00D4FF !important; /* Bright cyan/white for icons */
+        transition: color 0.2s ease;
+      }
+      .site-section .bg-light .px-3 a:hover span {
+        color: #FFFFFF !important;
+      }
+      /* ── Apply Now button full width ── */
+      .site-section .col-6 .btn-block {
+        width: 100%;
+      }
+    </style>
     <!-- HOME -->
 
 
