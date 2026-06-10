@@ -914,7 +914,8 @@ h1, h2, h3, h4 {
   display: block; }
 
 .custom-breadcrumbs a {
-  color: #89ba16; }
+  color: var(--color-teal, #00D9FF) !important;
+  font-weight: 600; }
   .custom-breadcrumbs a:hover {
     color: #fff; }
 
@@ -2180,11 +2181,18 @@ label.text-white {
 }
 
 .site-section h2 {
-  color: var(--color-white);
+  color: var(--color-navy, #001F3F);
   font-family: var(--font-display);
   font-weight: var(--weight-bold);
   font-size: var(--text-h2);
   letter-spacing: -0.5px;
+}
+
+/* Ensure h2 is white on dark backgrounds or if text-white is explicitly used */
+.site-section.bg-dark h2,
+.site-section[style*="background"] h2,
+.site-section h2.text-white {
+  color: #FFFFFF !important;
 }
 
 /* Responsive adjustments */
@@ -2204,7 +2212,7 @@ label.text-white {
 .site-section form.border.bg-light label.form-label,
 .site-section form.border.bg-light label,
 .site-section.bg-light form.border label {
-  color: #FFFFFF !important; /* Force white labels to match the dark form background */
+  color: var(--color-navy, #001F3F) !important; /* Force dark labels to match the light form background */
   font-family: var(--font-display, "Poppins", sans-serif) !important;
   font-weight: 600 !important;
 }
@@ -2225,6 +2233,57 @@ label.text-white {
 /* Default dark background for section-hero so white text is readable if image is light or fails to load */
 .section-hero {
   background-color: var(--color-dark-navy, #000F1F) !important;
+}
+
+/* Ensure all inner-page heroes have a beautiful, dark navy overlay with high contrast */
+.section-hero.overlay::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, rgba(0, 15, 31, 0.85) 0%, rgba(0, 31, 63, 0.75) 100%) !important;
+  z-index: 1;
+}
+
+/* Ensure the text content sits on top of the overlay */
+.section-hero > .container {
+  position: relative !important;
+  z-index: 2 !important;
+}
+
+/* Center all hero content and breadcrumbs globally */
+.section-hero .row {
+  justify-content: center !important;
+  text-align: center !important;
+}
+
+.section-hero .custom-breadcrumbs {
+  justify-content: center !important;
+  display: flex !important;
+}
+
+/* Breadcrumb styling */
+.custom-breadcrumbs a {
+  color: var(--color-teal, #00D9FF) !important;
+  font-weight: 600 !important;
+}
+
+.custom-breadcrumbs a:hover {
+  color: #FFFFFF !important;
+  text-decoration: none !important;
+}
+
+.custom-breadcrumbs .slash {
+  color: rgba(255, 255, 255, 0.5) !important;
+}
+
+/* Hide/override the duplicate or faulty pseudo-elements */
+.section-hero.overlay::before,
+.section-hero.overlay-2::before {
+  display: none !important;
+  content: none !important;
 }
 
 
