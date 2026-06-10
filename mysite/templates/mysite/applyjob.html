@@ -85,6 +85,32 @@
 {% load static %}
 
 {% block body %}
+    <style>
+      /* ── Labels: white, centered, bold ── */
+      .site-section label,
+      .site-section .form-group label {
+        color: #FFFFFF !important;
+        text-align: center !important;
+        display: block !important;
+        width: 100% !important;
+        font-weight: 600;
+      }
+      /* ── Input / textarea text centered & full width ── */
+      .site-section .form-control {
+        text-align: center !important;
+        text-align-last: center !important;
+        width: 100% !important;
+      }
+      /* ── "Apply for the Job" heading white ── */
+      .site-section h3 {
+        color: #FFFFFF !important;
+      }
+      /* ── Submit button full width ── */
+      .site-section input[type="submit"] {
+        width: 100% !important;
+        display: block !important;
+      }
+    </style>
     <!-- HOME -->
     <section class="section-hero overlay inner-page bg-image"
              style="background-image: url({% static 'mysite/images/hero_1.jpg' %});" id="home-section">
@@ -110,18 +136,18 @@
                 <div class="col-lg-6 mb-5 mb-lg-0">
                     <h3 class="text font-weight text-center">Apply for the Job</h3>
                     <br>
-                    <form method="post" enctype="multipart/form-data">
+                    <form method="post" enctype="multipart/form-data" class="p-4 border rounded shadow-lg bg-white">
                         {% csrf_token %}
                         <div class="row form-group">
                             <div class="col-md-12">
-                                <label class="text-black" for="name">Full Name</label>
+                                <label class="form-label" for="name">Full Name</label>
                                 <input type="text" id="name" name="name" class="form-control" required>
                             </div>
                         </div>
 
                         <div class="row form-group">
                             <div class="col-md-12">
-                                <label class="text-black" for="email">Email</label>
+                                <label class="form-label" for="email">Email</label>
                                 <input type="email" id="email" name="email" class="form-control" required>
                             </div>
                         </div>
@@ -129,8 +155,8 @@
                         <div class="row form-group">
                             <div class="col-md-12">
                                 <label for="gender">Gender</label>
-                                <select class="selectpicker border rounded" id="gender" name="gender" data-style="btn-black"
-                                        data-width="100%" data-live-search="true" title="Select Gender" required>
+                                <select class="form-control" id="gender" name="gender" required>
+                                    <option value="" disabled selected>Select Gender</option>
                                     <option>Male</option>
                                     <option>Female</option>
                                 </select>
@@ -141,13 +167,13 @@
                         <div class="row form-group">
                             <div class="col-md-12">
                                 <label for="experience">Experience Year</label>
-                                <input type="number" id="experience" name="experience" placeholder="0.0" required>
+                                <input type="number" id="experience" name="experience" class="form-control" placeholder="0.0" required>
                             </div>
                         </div>
 
                         <div class="row form-group">
                             <div class="col-md-12">
-                                <label class="text-black" for="coverletter">Coverletter</label>
+                                <label class="form-label" for="coverletter">Coverletter</label>
                                 <textarea name="coverletter" id="coverletter" cols="30" rows="7" class="form-control"
                                           placeholder="Write your notes or questions here..."></textarea>
                             </div>
@@ -171,7 +197,7 @@
 
                         <div class="row form-group">
                             <div class="col-md-12 text-center">
-                                <input type="submit" value="Submit" class="btn btn-primary btn-md text-white">
+                                <input type="submit" value="Submit" class="btn btn-primary btn-block text-white">
                             </div>
                         </div>
                     </form>
