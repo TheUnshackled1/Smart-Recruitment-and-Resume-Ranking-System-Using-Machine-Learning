@@ -4,6 +4,24 @@
 {% load static %}
 
 {% block body %}
+    <style>
+      /* Force white color and center alignment for all form labels to bypass browser caching */
+      .site-section label.form-label,
+      .site-section label,
+      .site-section .form-group label,
+      .site-section .row.form-group label {
+        color: #FFFFFF !important;
+        text-align: center !important;
+        display: block !important;
+        width: 100% !important;
+      }
+      /* Center alignment for text and placeholders inside input fields */
+      .site-section .form-control {
+        text-align: center !important;
+        width: 100% !important;
+      }
+    </style>
+
     <!-- HOME -->
     <section class="section-hero overlay inner-page bg-image" style="background-image: url({% static 'mysite/images/hero_1.jpg' %});" id="home-section">
       <div class="container">
@@ -24,26 +42,26 @@
         <div class="row justify-content-center">
 
           <div class="col-lg-6">
-            <h2 class="mb-4 text-white">Log In To Smart Recruitment</h2>
-            <form method="post" class="p-4 border rounded">
+            <h2 class="mb-4 text-white text-center">Log In To Smart Recruitment</h2>
+            <form method="post" class="p-4 border rounded shadow-lg bg-white">
                 {% csrf_token %}
 
               <div class="row form-group">
                 <div class="col-md-12 mb-3 mb-md-0">
-                  <label class="text-white" for="username">User Name</label>
+                  <label class="form-label" for="username">User Name</label>
                   <input type="text" id="username" name="username" class="form-control" placeholder="User Name">
                 </div>
               </div>
               <div class="row form-group mb-4">
                 <div class="col-md-12 mb-3 mb-md-0">
-                  <label class="text-white" for="password">Password</label>
+                  <label class="form-label" for="password">Password</label>
                   <input type="password" id="password" name="password" class="form-control" placeholder="Password">
                 </div>
               </div>
 
               <div class="row form-group">
                 <div class="col-md-12">
-                  <input type="submit" value="Log In" class="btn px-4 btn-primary text-white">
+                  <input type="submit" value="Log In" class="btn btn-primary btn-block text-white">
                 </div>
               </div>
 

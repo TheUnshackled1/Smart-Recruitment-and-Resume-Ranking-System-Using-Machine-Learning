@@ -2,6 +2,30 @@
 {% load static %}
 
 {% block body %}
+    <style>
+      /* Labels inside the site-section (white background) should be dark navy */
+      .site-section label.form-label,
+      .site-section label,
+      .site-section .form-group label,
+      .site-section .row.form-group label {
+        color: #FFFFFF !important;
+        text-align: center !important;
+        display: block !important;
+        width: 100% !important;
+        font-weight: 600;
+      }
+      /* Center text alignment for inputs and textareas */
+      .site-section .form-control {
+        text-align: center !important;
+        width: 100% !important;
+      }
+      /* Send Message button full width */
+      .site-section .btn-block {
+        width: 100% !important;
+        display: block !important;
+      }
+    </style>
+
     <!-- HOME -->
     <section class="section-hero overlay inner-page bg-image"
              style="background-image: url({% static 'mysite/images/hero_1.jpg' %});" id="home-section">
@@ -27,14 +51,14 @@
 
                         <div class="row form-group">
                             <div class="col-md-12">
-                                <label class="text-white" for="name">Name</label>
+                                <label class="form-label" for="name">Name</label>
                                 <input type="text" id="name" name="name" class="form-control">
                             </div>
                         </div>
 
                         <div class="row form-group">
                             <div class="col-md-12">
-                                <label class="text-white" for="email">Email</label>
+                                <label class="form-label" for="email">Email</label>
                                 <input type="email" id="email" name="email" class="form-control">
                             </div>
                         </div>
@@ -42,7 +66,7 @@
 
                         <div class="form-group row">
                             <div class="col-md-12">
-                                <label class="text-white" for="mobile">Phone Number</label>
+                                <label class="form-label" for="mobile">Phone Number</label>
                                 <input type="text" id="mobile" name="phone" class="form-control">
                                 <!--<input type="text" class="form-control" placeholder="Mobile" name="mobile" id="mobile"> -->
                             </div>
@@ -52,14 +76,14 @@
                         <div class="row form-group">
 
                             <div class="col-md-12">
-                                <label class="text-white" for="subject">Subject</label>
+                                <label class="form-label" for="subject">Subject</label>
                                 <input type="subject" id="subject" name="subject" class="form-control">
                             </div>
                         </div>
 
                         <div class="row form-group">
                             <div class="col-md-12">
-                                <label class="text-white" for="description">Description</label>
+                                <label class="form-label" for="description">Description</label>
                                 <textarea name="desc" id="message" cols="30" rows="7" class="form-control"
                                           placeholder="Write your notes or questions here..."></textarea>
                             </div>
@@ -67,7 +91,7 @@
 
                         <div class="row form-group">
                             <div class="col-md-12">
-                                <input type="submit" value="Send Message" class="btn btn-primary btn-md text-white">
+                                <input type="submit" value="Send Message" class="btn btn-primary btn-block text-white">
                             </div>
                         </div>
 
