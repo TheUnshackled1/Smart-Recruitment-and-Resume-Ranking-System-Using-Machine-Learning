@@ -4,11 +4,29 @@
 {% load static %}
 
 {% block body %}
+    <style>
+      /* Force white color and center alignment for all form labels to bypass browser caching */
+      .site-section label.form-label,
+      .site-section label,
+      .site-section .form-group label,
+      .site-section .row.form-group label {
+        color: #FFFFFF !important;
+        text-align: center !important;
+        display: block !important;
+        width: 100% !important;
+      }
+      /* Center alignment for text and placeholders inside input fields and selects */
+      .site-section .form-control {
+        text-align: center !important;
+        text-align-last: center !important;
+        width: 100% !important;
+      }
+    </style>
 
     <!-- HOME -->
     <section class="section-hero overlay inner-page bg-image" style="background-image: url({% static 'mysite/images/hero_1.jpg' %});" id="home-section">
       <div class="container">
-        <div class="row">
+        <div class="row justify-content-center text-center">
           <div class="col-md-7">
             <h1 class="text-white font-weight-bold">Sign Up</h1>
             <div class="custom-breadcrumbs">
@@ -24,40 +42,41 @@
       <div class="container">
         <div class="row justify-content-center">
           <div class="col-lg-6 mb-5">
-            <h2 class="mb-4 text-white">Sign Up To Smart Recruitment</h2>
+            <h2 class="mb-4 text-white text-center">Sign Up To Smart Recruitment</h2>
 
 
-            <form action="register.html" method="post" class="p-4 border rounded">
+            <form action="register.html" method="post" class="p-4 border rounded shadow-lg bg-white">
                 {% csrf_token %}
 
                <div class="row form-group">
                 <div class="col-md-12 mb-3 mb-md-0">
-                  <label class="text-white" for="first_name">First Name</label>
+                  <label class="form-label" for="first_name">First Name</label>
                   <input type="text" id="first_name" name="first_name" class="form-control" placeholder="First Name">
                 </div>
               </div>
 
-                <div class="row form-group">
+              <div class="row form-group">
                 <div class="col-md-12 mb-3 mb-md-0">
-                  <label class="text-white" for="last_name">Last Name</label>
+                  <label class="form-label" for="last_name">Last Name</label>
                   <input type="text" id="last_name" name="last_name" class="form-control" placeholder="Last Name">
                 </div>
               </div>
+
               <div class="row form-group">
                 <div class="col-md-12 mb-3 mb-md-0">
-                  <label class="text-white" for="username">User Name</label>
+                  <label class="form-label" for="username">User Name</label>
                   <input type="text" id="username" name="username" class="form-control" placeholder="User Name">
                 </div>
               </div>
               <div class="row form-group">
                 <div class="col-md-12 mb-3 mb-md-0">
-                  <label class="text-white" for="email">Email</label>
+                  <label class="form-label" for="email">Email</label>
                   <input type="email" id="email" name="email" class="form-control" placeholder="example@email.com">
                 </div>
               </div>
               <div class="row form-group">
                 <div class="col-md-12 mb-3 mb-md-0">
-                  <label class="text-white" for="user_type">User Type</label>
+                  <label class="form-label" for="user_type">User Type</label>
                   <select class="form-control" id="user_type" name="user_type">
                     <option value=0 selected>Applicant</option>
                     <option value=1>Recruiter</option>
@@ -66,44 +85,20 @@
               </div>
               <div class="row form-group">
                 <div class="col-md-12 mb-3 mb-md-0">
-                  <label class="text-white" for="password1">Password</label>
+                  <label class="form-label" for="password1">Password</label>
                   <input type="password" id="password1" name="password1" class="form-control" placeholder="Password">
                 </div>
               </div>
-              <div class="row form-group mb-4">
+              <div class="row form-group">
                 <div class="col-md-12 mb-3 mb-md-0">
-                  <label class="text-white" for="password2">Re-Type Password</label>
+                  <label class="form-label" for="password2">Re-Type Password</label>
                   <input type="password" id="password2" name="password2" class="form-control" placeholder="Re-type Password">
                 </div>
               </div>
-             <!-- <div class="row form-group">
-                <div class="col-md-12 mb-3 mb-md-0">
-                  <label class="text-black" for="name">Contact Number</label>
-                  <input type="text" id="phone" name="phone" class="form-control" placeholder="Contact Number">
-                </div>
-              </div> -->
-             <!-- <div class="row form-group">
-                <div class="col-md-12 mb-3 mb-md-0">
-                  <label class="text-black" for="name">Address</label>
-                  <input type="text" id="address" name="address" class="form-control" placeholder="Address">
-                </div>
-              </div>
-               <div class="row form-group">
-                <div class="col-md-12 mb-3 mb-md-0">
-                  <label class="text-black" for="fname">Linkedin Profile</label>
-                  <input type="text" id="linkedin" name="linkedin_id" class="form-control" placeholder="Linkedin Link">
-                </div>
-              </div>
-               <div class="row form-group">
-                <div class="col-md-12 mb-3 mb-md-0">
-                  <label class="text-black" for="fname">Github Profile</label>
-                  <input type="text" id="github" name="github_id" class="form-control" placeholder="Github Link">
-                </div>
-              </div> -->
 
-              <div class="row form-group">
+              <div class="row form-group mt-4">
                 <div class="col-md-12">
-                  <input type="submit" value="Sign Up" class="btn px-4 btn-primary text-white">
+                  <input type="submit" value="Sign Up" class="btn btn-primary btn-block text-white">
                 </div>
               </div>
 
