@@ -5,9 +5,16 @@
 {% block body %}
 
     <style>
-      /* Job Listed title white */
-      .section-title {
+      /* Job Listed title white - force pure white, strip blue box */
+      .section-title,
+      h2.section-title {
         color: #FFFFFF !important;
+        background: transparent !important;
+        background-color: transparent !important;
+        -webkit-text-fill-color: #FFFFFF !important;
+      }
+      .section-title::after {
+        display: none !important;
       }
       /* Job listing card hover effect */
       .job-listings .job-listing {
@@ -51,7 +58,7 @@
 
             <div class="row mb-5 justify-content-center">
                 <div class="col-md-7 text-center">
-                    <h2 class="section-title mb-2">{{ job_len }} Job Listed</h2>
+                    <h2 class="section-title mb-2" style="color:#FFFFFF!important;background:transparent!important;-webkit-text-fill-color:#FFFFFF!important;">{{ job_len }} Job Listed</h2>
                 </div>
             </div>
 
