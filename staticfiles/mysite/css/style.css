@@ -2190,11 +2190,21 @@ label.text-white {
   border-bottom-color: rgba(255, 255, 255, 0.1) !important;
 }
 
-.site-section h2 {
+.site-section h2,
+.site-section .section-title,
+.site-section .job-section-title {
   color: var(--color-white, #FFFFFF) !important;
   font-family: var(--font-display);
   font-weight: var(--weight-bold);
   font-size: var(--text-h2);
+  letter-spacing: -0.5px;
+}
+
+.site-section h3 {
+  color: var(--color-white, #FFFFFF) !important;
+  font-family: var(--font-display);
+  font-weight: var(--weight-bold);
+  font-size: var(--text-h3);
   letter-spacing: -0.5px;
 }
 
