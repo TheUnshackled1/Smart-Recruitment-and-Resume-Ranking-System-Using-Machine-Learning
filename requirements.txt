@@ -1,12 +1,35 @@
- Python 3.9 (SQLite, no textract/MySQL)
-Django==3.2.25
-scikit-learn==1.3.2
-nltk==3.8.1
-inflect==5.6.2
-python-dateutil==2.9.0.post0
-PyPDF2==3.0.1
-stop-words==2018.7.23
+# =============================================================================
+# Smart Recruitment & Resume Ranking System — Dependencies
+# =============================================================================
+# Python 3.9 ONLY (Django 3.2 + pinned ML libs break on 3.10+)
+# Install:  pip install -r requirements.txt
+# =============================================================================
 
-# NOTE: textract removed (.doc/.docx disabled, PDF only via PyPDF2).
-# NOTE: mysqlclient/psycopg2 removed - using SQLite locally.
-# NOTE: gensim/pandas/etc from upstream not needed by current code.
+# --- Web Framework -----------------------------------------------------------
+Django==3.2.25              # LTS release; compatible with Python 3.9
+
+# --- Machine Learning & NLP --------------------------------------------------
+scikit-learn==1.3.2         # TF-IDF vectorisation + K-Nearest Neighbors ranking
+nltk==3.8.1                 # Tokenisation, stop-word removal, stemming, lemmatisation
+stop-words==2018.7.23       # Extended stop-word lists (supplements NLTK)
+inflect==5.6.2              # Singular/plural word inflection for NLP normalisation
+
+# --- Document Parsing --------------------------------------------------------
+PyPDF2==3.0.1               # Text extraction from text-based PDF resumes
+
+# --- Utilities ---------------------------------------------------------------
+python-dateutil==2.9.0.post0  # Flexible date parsing (experience date ranges, etc.)
+
+# =============================================================================
+# REMOVED / NOT NEEDED
+# =============================================================================
+# textract      — removed; .doc/.docx support disabled; PDF-only via PyPDF2
+# mysqlclient   — removed; using SQLite locally (no DB server required)
+# psycopg2      — removed; PostgreSQL not used
+# gensim        — removed; not needed by current ranking implementation
+# pandas        — removed; not required by current codebase
+# =============================================================================
+# NLTK corpora must be downloaded separately (one-time, per machine):
+#   python -c "import nltk; [nltk.download(p) for p in
+#              ['punkt', 'stopwords', 'wordnet', 'omw-1.4']]"
+# =============================================================================
