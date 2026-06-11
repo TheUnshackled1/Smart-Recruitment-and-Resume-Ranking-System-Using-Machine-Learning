@@ -1,147 +1,281 @@
-Smart Recruitment and Resume Ranking System Using Machine Learning
+# 🎯 Smart Recruitment & Resume Ranking System
 
-Finding the most suitable candidate for a job vacancy within a short period of time has become a major challenge for many companies. With the increasing number of job applicants, the recruitment process requires significant time, effort, and manpower to manually review resumes and identify qualified candidates. Human Resource personnel often face difficulties in efficiently screening large volumes of applications.
+> **An ML-powered web application that automates resume screening and candidate ranking using TF-IDF and K-Nearest Neighbors.**
 
-This project aims to develop a Smart Recruitment and Resume Ranking System Using Machine Learning, a web-based application built with Django that automates the recruitment and applicant screening process. In this system, recruiter users can post job vacancies, while applicant users can apply for jobs, provide the required information, and upload their resumes.
+![Python](https://img.shields.io/badge/Python-3.9-3776AB?logo=python&logoColor=white)
+![Django](https://img.shields.io/badge/Django-3.2-092E20?logo=django&logoColor=white)
+![scikit-learn](https://img.shields.io/badge/scikit--learn-1.3-F7931E?logo=scikitlearn&logoColor=white)
+![NLTK](https://img.shields.io/badge/NLTK-3.8-4EAA25)
+![SQLite](https://img.shields.io/badge/SQLite-3-003B57?logo=sqlite&logoColor=white)
+![License](https://img.shields.io/badge/License-MIT-green)
 
-The system analyzes and compares the uploaded resumes with the job descriptions using document similarity techniques and a K-Nearest Neighbors (KNN) machine learning model. Based on the similarity scores, the system automatically ranks and shortlists the most qualified candidates for the position.
+---
 
-By automating the resume screening and ranking process, the system helps reduce manual effort, saves time and operational costs, and improves the efficiency and accuracy of candidate selection for recruitment.
+## 📋 Table of Contents
 
-## Objectives
+- [Overview](#-overview)
+- [Objectives](#-objectives)
+- [Core Features](#-core-features)
+- [System Architecture](#-system-architecture)
+- [Ranking Algorithm](#-ranking-algorithm)
+- [Tech Stack](#-tech-stack)
+- [Setup & Installation](#-setup--installation)
+- [Usage](#-usage)
+- [Screenshots](#-screenshots)
 
-I've designed this system with four key goals in mind:
+---
 
-**Find the Best Candidates** — My system identifies the most qualified applicants for each job vacancy, ensuring you get the right talent for your team.
+## 🔍 Overview
 
-**Provide a Realistic Ranking System** — I implement an intelligent algorithm that scores candidates based on their actual skills and real-world experience, not just keyword matches.
+Finding the right candidate from hundreds of applications is one of the most time-consuming challenges facing HR teams today. Manual resume review is slow, inconsistent, and expensive.
 
-**Make the Recruiting Process More Flexible** — I support multiple data sources including CV uploads, GitHub profiles, and LinkedIn profiles to get a complete picture of each candidate.
+The **Smart Recruitment and Resume Ranking System** is a Django-based web application that automates the end-to-end screening process. Recruiters post job vacancies with requirements; applicants apply and upload their CVs. The system then:
 
-**Save Human Efforts, Time, and Cost** — By automating the screening and ranking process, I significantly reduce the manual effort required from your HR team, saving both time and operational costs.
+1. **Parses** CV text and optional GitHub/LinkedIn profile data
+2. **Processes** that data through an NLP pipeline (tokenization, stemming, stop-word removal)
+3. **Scores** each candidate using TF-IDF weighted vectors + KNN cosine similarity
+4. **Ranks** applicants and surfaces the top matches to the recruiter
 
-## Setup & Dependencies
+The result: faster, fairer, data-driven hiring decisions.
 
-### Prerequisites
-- Python 3.9+
-- pip (Python package manager)
-- SQLite3
+---
 
-### Installation
+## 🎯 Objectives
 
-1. **Clone the repository**
-   ```bash
-   git clone <repository-url>
-   cd Smart-Recruitment-System
-   ```
+| Goal | Description |
+|---|---|
+| 🏆 **Find the Best Candidates** | Identify the most qualified applicants for each vacancy automatically |
+| 📊 **Realistic Ranking** | Score candidates on real skills and experience, not just keyword density |
+| 🔄 **Flexible Data Sources** | Ingest CVs, GitHub profiles, and LinkedIn profiles for a complete picture |
+| ⏱️ **Save Time & Cost** | Eliminate manual screening and reduce recruiter workload significantly |
 
-2. **Create a virtual environment**
-   ```bash
-   python -m venv venv
-   source venv/Scripts/activate  # On Windows
-   # or
-   source venv/bin/activate     # On macOS/Linux
-   ```
+---
 
-3. **Install dependencies**
-   ```bash
-   pip install -r requirements.txt
-   ```
+## ✨ Core Features
 
-4. **Run migrations**
-   ```bash
-   python manage.py makemigrations
-   python manage.py migrate
-   ```
+### 👔 For Recruiters
+- **Post Job Vacancies** — Create detailed listings with required skills, experience levels, and qualifications
+- **Unified Dashboard** — Review all applications and submissions in one place
+- **Automatic Ranking** — Candidates are scored and sorted by CV match and skill alignment
+- **Shortlist & Invite** — Easily shortlist top-ranked candidates for interview rounds
 
-5. **Create a superuser (admin account)**
-   ```bash
-   python manage.py createsuperuser
-   ```
+### 👤 For Candidates / Applicants
+- **Browse & Filter Jobs** — Search by location, salary, and employment type
+- **Apply with CV & Cover Letter** — Submit applications directly through the platform
+- **Link External Profiles** — Connect GitHub and LinkedIn profiles for a richer application
+- **Take Assessments** — Participate in job-specific assessments that factor into the final score
 
-6. **Start the development server**
-   ```bash
-   python manage.py runserver
-   ```
+### ⚙️ System Capabilities
+- Multi-source data extraction (CV, GitHub, LinkedIn)
+- Automated skill identification and job-requirement matching
+- TF-IDF + KNN intelligent candidate scoring
+- Filtering by CGPA, degree, and years of experience
 
-   The application will be available at `http://localhost:8000/`
+---
 
-### Database
-The system uses SQLite for local development, which is automatically configured in Django settings.
+## 🏗️ System Architecture
 
-## Core Features
-
-### For Recruiters
-
-Recruiters can easily post job vacancies and create detailed job listings with specific requirements, skills, and experience levels they're looking for. Once candidates start applying, recruiters can access and review all submissions in one convenient dashboard. My system automatically ranks candidates based on CV matching and required skills, making it easy to spot the best fits. Finally, recruiters can review my shortlisted and matched candidates for interview rounds.
-
-### For Candidates/Applicants
-
-Job seekers can browse available positions and filter by location, salary, and employment type to find opportunities that match their goals. They can submit applications along with their CV and cover letter. To provide a more complete profile, candidates can link their GitHub and LinkedIn profiles to showcase their work and experience. Additionally, candidates can participate in assessments for positions they've applied to.
-
-### System Capabilities
-
-The system extracts information from multiple sources: uploaded CVs, GitHub profiles, and LinkedIn profiles. It automatically identifies and matches skills from candidate profiles with what the job requires. Using TF-IDF and K-Nearest Neighbors algorithms, my intelligent ranking system scores and ranks candidates fairly. The system also automates the filtering process based on academic qualifications, experience level, and required skills.
-
-## System Architecture
-
-The Smart Recruitment System follows a layered architecture with the following main components:
-
-### Overall System Flow
+### Overall Flow
 
 ```
-Candidates → Job Search, Apply Job, Upload CV, Participate Assessment
-                              ↓
-                    System CVs Database
-                              ↓
-                   CV Ranking System
-                   (Parsing & Analysis)
-                              ↓
-                    Shortlisted CVs
+Candidates
+    │
+    ├─ Search Jobs
+    ├─ Apply & Upload CV
+    └─ Take Assessments
+             │
+             ▼
+     ┌───────────────┐
+     │  CVs Database │
+     └───────┬───────┘
+             │
+             ▼
+     ┌───────────────────┐
+     │  CV Ranking Engine │
+     │  (Parse & Analyse) │
+     └───────┬───────────┘
+             │
+             ▼
+      Shortlisted CVs  ──► Recruiter Dashboard
 ```
-![alt text](image.png)
+
+![System Architecture](ProjectPic/1_Recruitment_System_Architecture.png)
+
+---
 
 ### CV Ranking Model Architecture
 
-The ranking system processes candidate information through a well-designed pipeline that ensures accurate and fair candidate evaluation.
+The ranking pipeline processes candidate data from three sources through a series of NLP and ML stages:
 
-The system accepts data from three main sources: CV uploads, GitHub profiles, and LinkedIn profiles. This multi-source approach gives me a comprehensive view of each candidate's qualifications.
-![alt text](image-1.png)
+```
+  Input Sources          NLP Pipeline              ML Scoring
+┌──────────────┐    ┌────────────────────┐    ┌──────────────────┐
+│  CV Upload   │    │ 1. Parse & Extract │    │ TF-IDF Vectors   │
+│  GitHub URL  │───►│ 2. Clean Text      │───►│        +         │
+│  LinkedIn URL│    │ 3. Tokenise (NLTK) │    │ KNN Cosine Sim   │
+└──────────────┘    │ 4. Remove Stopwords│    └────────┬─────────┘
+                    │ 5. Stem & Lemmatise│             │
+                    └────────────────────┘             ▼
+                                               Ranked Candidate List
+                                               (Top K recommendations)
+```
 
-**Processing Pipeline:**
+![Model Architecture](ProjectPic/2_Recruitment_System_Model_ Architecture.png)
 
-The system begins by parsing and extracting information from CVs, GitHub profiles, and LinkedIn profiles. Next, it cleans the extracted data by removing special characters, signal letters, and numbers to standardize the text.
+---
 
-Using NLTK tokenization, the cleaned text is converted into meaningful tokens. I then prepare the data further by removing stop words and applying word stemming to normalize variations of the same word.
+## 🧠 Ranking Algorithm
 
-For requirement extraction, I use TF-IDF analysis to identify which words are most relevant and important. These keywords are then mapped back to each CV based on the specific job requirements.
+### Step 1 — Basic Requirements Filtering
 
-The system then calculates matching similarity scores to identify which CVs are most compatible with the job vacancy, focusing on required skills. Using my ranking algorithm, I generate a ranked list of the top matching CVs (for example, the top 20 candidates).
+Before scoring, candidates are pre-filtered against hard requirements:
+- Minimum CGPA / degree qualification
+- Minimum required years of experience
 
-Finally, I calculate a final score that combines both the CV matching score and the assessment results, giving recruiters a comprehensive view of each candidate's suitability for the role.
+### Step 2 — Data Pre-processing
 
-### Ranking Algorithm Design
+Raw text from CVs and profiles is cleaned and normalised:
+- Remove special characters, punctuation, and numbers
+- Apply **word stemming** (Porter Stemmer)
+- Apply **verb lemmatisation** for consistent word forms
 
-**Basic Requirements Filtering**
+### Step 3 — TF-IDF Calculation
 
-Before we even start ranking, we ensure candidates meet the fundamental requirements. We filter based on academic CGPA or degree qualifications and minimum required years of experience. This ensures we're working with qualified candidates from the start.
+Each keyword in a resume is weighted using TF-IDF:
 
-**Data Pre-processing**
+```
+weight(keyword) = TF(keyword) × IDF(keyword)
 
-Our system cleans and standardizes the candidate data through data cleaning (removing special characters, signals, and numbers), word stemming, and verb lemmatization. This normalization step ensures consistent comparison across all resumes.
+Where:
+  TF(keyword)  = frequency of the keyword in the resume
+  IDF(keyword) = 1  for required skills
+               = 0  for unwanted / irrelevant skills
+```
 
-**TF-IDF Calculation**
+This ensures the model boosts candidates who demonstrate the exact skills the role demands.
 
-We use TF-IDF (Term Frequency-Inverse Document Frequency) to understand which keywords are most important in matching a candidate to a job. The calculation works as follows:
+### Step 4 — KNN Similarity Matching
 
-- TF(keyword) measures how often a keyword appears in a resume
-- IDF(keyword) measures how unique that keyword is across all resumes. For required skills, we set IDF to 1, and for unwanted skills, we set it to 0
-- weight(keyword) = TF(keyword) × IDF(keyword), giving us a final importance score for each keyword
+TF-IDF weighted vectors from each CV are compared to the job description vector using **cosine similarity** via the K-Nearest Neighbors algorithm. The closer the angle between vectors, the higher the match.
 
-**Document Similarity Matching**
+### Step 5 — Final Scoring & Ranking
 
-We use the TF-IDF weighted vectors and apply the K-Nearest Neighbors (KNN) algorithm to find candidates most similar to the job requirements. This involves calculating cosine similarity between each CV and the job description to find the best matches.
+```
+Final Score = CV Match Score + Assessment Score
+```
 
-**Final Scoring**
+All candidates are ranked by their final score and the **top K candidates** (default: 20) are returned to the recruiter as recommendations.
 
-The final score combines the candidate's skill matching score with their assessment performance. We then rank all candidates based on this final score and return the top K candidates (typically the top 20) as our recommendations to the recruiter.
+---
+
+## 🛠️ Tech Stack
+
+| Layer | Technology |
+|---|---|
+| **Web Framework** | Django 3.2 |
+| **Language** | Python 3.9 |
+| **Database** | SQLite 3 |
+| **ML / Similarity** | scikit-learn 1.3 (TF-IDF, KNN) |
+| **NLP** | NLTK 3.8 (tokenisation, stemming, lemmatisation) |
+| **PDF Parsing** | PyPDF2 3.0 |
+| **Other NLP** | inflect, stop-words |
+
+---
+
+## 🚀 Setup & Installation
+
+> 💡 For Windows-specific setup with Python 3.9, see **[INSTRUCTIONS.md](INSTRUCTIONS.md)**.
+
+### Prerequisites
+
+- Python **3.9** (required — Django 3.2 + pinned ML libs are not compatible with 3.11/3.12)
+- pip
+- Git
+
+### Installation Steps
+
+**1. Clone the repository**
+```bash
+git clone <repository-url>
+cd Smart-Recruitment-System
+```
+
+**2. Create and activate a virtual environment**
+```bash
+# Windows
+py -3.9 -m venv venv
+.\venv\Scripts\activate
+
+# macOS / Linux
+python3.9 -m venv venv
+source venv/bin/activate
+```
+
+**3. Install dependencies**
+```bash
+pip install -r requirements.txt
+```
+
+**4. Download NLTK data** *(one-time)*
+```bash
+python -c "import nltk; [nltk.download(p) for p in ['punkt','stopwords','wordnet','omw-1.4']]"
+```
+
+**5. Run database migrations**
+```bash
+python manage.py migrate
+```
+
+**6. Create a superuser (recruiter / admin)**
+```bash
+python manage.py createsuperuser
+```
+
+**7. Start the development server**
+```bash
+python manage.py runserver
+```
+
+The application will be available at **http://127.0.0.1:8000/**
+Django Admin panel: **http://127.0.0.1:8000/admin/**
+
+---
+
+## 📖 Usage
+
+### Recruiter Workflow
+1. Log in with your superuser account (or any account with `is_staff=True`)
+2. Post a new job vacancy with required skills and qualifications
+3. Wait for candidates to apply
+4. Open the ranking dashboard to view automatically scored and sorted applicants
+5. Shortlist top candidates for interview
+
+### Candidate Workflow
+1. Register via the sign-up page
+2. Browse job listings and filter by your preferences
+3. Apply to a vacancy — upload your **text-based PDF** CV and cover letter
+4. Optionally link your GitHub and LinkedIn profile URLs
+5. Complete any assessments associated with the role
+
+> ⚠️ **CV Format**: CVs must be text-based PDFs. Scanned / image-only PDFs cannot be parsed and will result in a zero-text extraction.
+
+### User Role Reference
+
+| Role | How to set | Permissions |
+|---|---|---|
+| **Recruiter** | `is_staff = True` (Django Admin or superuser) | Post jobs, view rankings, shortlist candidates |
+| **Candidate** | Default (normal sign-up) | Browse jobs, apply, take assessments |
+
+To promote an existing user to recruiter: **Django Admin → Users → select user → tick `is_staff`**
+
+---
+
+## 📸 Screenshots
+
+| Homepage | Job Listings | Job Details |
+|:---:|:---:|:---:|
+| ![Homepage](ProjectPic/3_1_homepage.png) | ![Job Listings](ProjectPic/5_joblisting_page.png) | ![Job Details](ProjectPic/8_single_job_details.png) |
+
+| Apply | Ranking Results | Sign Up |
+|:---:|:---:|:---:|
+| ![Apply](ProjectPic/9_apply_job_page.png) | ![Ranking](ProjectPic/10_rank_page.png) | ![Sign Up](ProjectPic/11_signup_page.png) |
