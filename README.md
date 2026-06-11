@@ -274,8 +274,8 @@ To promote an existing user to recruiter: **Django Admin → Users → select us
 
 | Homepage | Job Listings | Job Details |
 |:---:|:---:|:---:|
-| ![Homepage](ProjectPic/3_1_homepage.png) | ![Job Listings](ProjectPic/5_joblisting_page.png) | ![Job Details](ProjectPic/8_single_job_details.png) |
+| ![Homepage](ProjectPic/ss_homepage.png) | ![Job Listings](ProjectPic/ss_job_listings.png) | ![Job Details](ProjectPic/ss_job_details.png) |
 
-| Apply | Ranking Results | Sign Up |
+| Apply for a Job | Sign Up | Log In |
 |:---:|:---:|:---:|
-| ![Apply](ProjectPic/9_apply_job_page.png) | ![Ranking](ProjectPic/10_rank_page.png) | ![Sign Up](ProjectPic/11_signup_page.png) |
+| ![Apply](ProjectPic/ss_apply.png) | ![Sign Up](ProjectPic/ss_signup.png) | ![Login](ProjectPic/ss_login.png) |
