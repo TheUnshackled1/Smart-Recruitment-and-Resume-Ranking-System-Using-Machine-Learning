@@ -1,0 +1,28 @@
+John Developer
+Talisay, Negros Occidental | john.developer@email.com | 0912-345-6789
+
+OBJECTIVE
+Highly analytical and detail-oriented IT professional seeking a Systems Analyst position to leverage my experience in system evaluation, requirements gathering, and technical documentation to improve business processes.
+
+EXPERIENCE
+Junior Systems Analyst | Tech Innovators (2024 - 2026)
+- Evaluated existing IT systems and recommended improvements, increasing efficiency by 15%.
+- Gathered and documented user requirements for 5 major software projects.
+- Collaborated with software developers to design and implement new system features.
+- Conducted system testing, validation, and deployed software updates.
+- Trained over 50 end-users on newly implemented systems.
+
+IT Support Specialist | Global Solutions (2023 - 2024)
+- Provided technical support and troubleshooting for internal business systems.
+- Assisted in the documentation of IT infrastructure.
+
+EDUCATION
+Bachelor of Science in Information Technology
+CHMSU, Talisay Campus (Graduated 2023)
+
+SKILLS
+- System Analysis & Design
+- Requirements Gathering & Documentation
+- Software Testing & Validation
+- SQL, Python, UML
+- Cross-functional Collaboration
