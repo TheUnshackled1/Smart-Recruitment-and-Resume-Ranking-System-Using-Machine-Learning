@@ -338,13 +338,13 @@ def check_basicRequirement(resumes_data, job_data):
     Temp_pdf = ''
     # print(int(job_data.experience.split(' ')[0].split('-')[0]))
     # print(len(resumes_data))
-    # filter resumes based on the gender
-    resumes_data = resumes_data.filter(experience__gte=float(job_data.experience.split(' ')[0].split('-')[0]))
-    print(len(resumes_data))
-    if job_data.gender == 'Male':
-        resumes_data = resumes_data.filter(gender='Male')
-    elif job_data.gender == 'Female':
-        resumes_data = resumes_data.filter(gender='Female')
+    # filter resumes based on the gender and experience
+    # resumes_data = resumes_data.filter(experience__gte=float(job_data.experience.split(' ')[0].split('-')[0]))
+    # print(len(resumes_data))
+    # if job_data.gender == 'Male':
+    #     resumes_data = resumes_data.filter(gender='Male')
+    # elif job_data.gender == 'Female':
+    #     resumes_data = resumes_data.filter(gender='Female')
 
     # resumes file path
     filepath = 'media/'
